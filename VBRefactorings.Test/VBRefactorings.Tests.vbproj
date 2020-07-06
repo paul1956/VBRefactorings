@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>UnitTestProject1</RootNamespace>
+    <AssemblyName>UnitTestProject1</AssemblyName>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>Off</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>UnitTestProject1.xml</DocumentationFile>
+    <NoWarn></NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineDebug>false</DefineDebug>
+    <DocumentationFile>UnitTestProject1.xml</DocumentationFile>
+    <NoWarn></NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="My Project\Settings.Designer.vb" />
+    <Compile Remove="Tests\MoveStringToResource.UnitTests.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="My Project\Settings.settings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Update="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="3.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Analyzer.Testing.MSTest" Version="1.0.1-beta1.20330.4" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.CodeFix.Testing.MSTest" Version="1.0.1-beta1.20330.4" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.CodeRefactoring.Testing.MSTest" Version="1.0.1-beta1.20330.4" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="3.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.assert" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VBRefactorings\VBRefactorings.vbproj" />
+  </ItemGroup>
+</Project>
