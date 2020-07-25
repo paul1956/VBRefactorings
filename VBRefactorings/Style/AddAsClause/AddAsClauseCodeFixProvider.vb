@@ -11,6 +11,7 @@ Imports System.Collections.Immutable
 Imports System.Composition
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.CodeFixes
+Imports Microsoft.CodeAnalysis.Text
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 
 Namespace Style
@@ -44,7 +45,9 @@ Namespace Style
         Public NotOverridable Overrides Async Function RegisterCodeFixesAsync(Context As CodeFixContext) As Task
             Try
                 Dim Root As SyntaxNode = Await Context.Document.GetSyntaxRootAsync(Context.CancellationToken).ConfigureAwait(False)
-                Dim DiagnosticSpanStart As Integer = Context.Diagnostics.First().Location.SourceSpan.Start
+                Dim diagnostic As Diagnostic = Context.Diagnostics.First()
+                Dim diagnosticSpan As TextSpan = diagnostic.Location.SourceSpan
+                Dim DiagnosticSpanStart As Integer = diagnostic.Location.SourceSpan.Start
                 Dim VariableDeclaration As SyntaxNode = Root.FindToken(DiagnosticSpanStart).Parent.FirstAncestorOrSelfOfType(GetType(VariableDeclaratorSyntax))
                 Dim Model As SemanticModel = Await Context.Document.GetSemanticModelAsync(Context.CancellationToken)
                 If VariableDeclaration IsNot Nothing Then

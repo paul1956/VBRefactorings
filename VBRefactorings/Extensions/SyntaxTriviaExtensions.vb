@@ -66,34 +66,8 @@ Namespace Utilities
             If TriviaList.Count = 0 Then
                 Return False
             End If
-            For Each t As SyntaxTrivia In TriviaList
-                If t.IsWhitespaceOrEndOfLine Then
-                    Continue For
-                End If
-                If t.RawKind = 0 Then
-                    Continue For
-                End If
-                If t.IsCommentOrDirectiveTrivia Then
-                    Return True
-                End If
-                If t.IsKind(VB.SyntaxKind.LineContinuationTrivia) Then
-                    Return True
-                End If
-                If t.IsKind(VB.SyntaxKind.SkippedTokensTrivia) Then
-                    Continue For
-                End If
-                If t.IsKind(VB.SyntaxKind.DisabledTextTrivia) Then
-                    Continue For
-                End If
-                If t.IsKind(VB.SyntaxKind.DocumentationCommentTrivia) Then
-                    Return True
-                End If
-                If t.RawKind = VB.SyntaxKind.DocumentationCommentExteriorTrivia Then
-                    Return True
-                End If
-                Stop
-            Next
-            Return False
+            Return TriviaList.ToList.Any(Function(t) t.IsKind(VB.SyntaxKind.LineContinuationTrivia) OrElse t.IsCommentOrDirectiveTrivia)
+
         End Function
 
         ''' <summary>
@@ -122,6 +96,11 @@ Namespace Utilities
 
         <Extension>
         Public Function ContainsCommentOrLineContinueTrivia(TriviaList As SyntaxTriviaList) As Boolean
+            Return ContainsCommentOrLineContinueTrivia(TriviaList.ToList)
+        End Function
+
+        <Extension>
+        Public Function ContainsCommentOrLineContinueTrivia(TriviaList As List(Of SyntaxTrivia)) As Boolean
             If TriviaList.Count = 0 Then
                 Return False
             End If
@@ -202,6 +181,12 @@ Namespace Utilities
                 Return True
             End If
             If t.IsDirective Then
+                Return True
+            End If
+            If t.IsKind(VB.SyntaxKind.DocumentationCommentTrivia) Then
+                Return True
+            End If
+            If t.IsKind(VB.SyntaxKind.DocumentationCommentExteriorTrivia) Then
                 Return True
             End If
             Return False

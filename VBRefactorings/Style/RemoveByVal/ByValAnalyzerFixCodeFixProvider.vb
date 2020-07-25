@@ -47,15 +47,15 @@ Namespace Style
 
                 Dim byValToken As SyntaxToken = Param.Modifiers(indexOfByVal)
                 Dim newLeadingTrivia As List(Of SyntaxTrivia) = byValToken.LeadingTrivia.ToList
-
                 If byValToken.LeadingTrivia.Any AndAlso byValToken.LeadingTrivia.ContainsCommentOrLineContinueTrivia Then
                     If newLeadingTrivia.Last.IsKind(SyntaxKind.WhitespaceTrivia) Then
                         newLeadingTrivia.RemoveAt(newLeadingTrivia.Count - 1)
                     End If
                 End If
-                If byValToken.TrailingTrivia.Any AndAlso byValToken.TrailingTrivia.ContainsCommentOrLineContinueTrivia Then
-                    Dim newTrailingTrivia As List(Of SyntaxTrivia) = byValToken.TrailingTrivia.ToList
-                    If newLeadingTrivia.Count = 0 OrElse (newTrailingTrivia.Count > 0 AndAlso newTrailingTrivia.First.IsKind(SyntaxKind.WhitespaceTrivia)) Then
+
+                Dim newTrailingTrivia As List(Of SyntaxTrivia) = byValToken.TrailingTrivia.ToList
+                If newTrailingTrivia.Any AndAlso newTrailingTrivia.ContainsCommentOrLineContinueTrivia Then
+                    If newTrailingTrivia.Count > 0 AndAlso newTrailingTrivia.First.IsKind(SyntaxKind.WhitespaceTrivia) Then
                         newTrailingTrivia.RemoveAt(0)
                     End If
                     If newTrailingTrivia.Last.IsKind(SyntaxKind.WhitespaceTrivia) Then
