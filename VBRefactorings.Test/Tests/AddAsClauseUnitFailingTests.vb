@@ -68,8 +68,8 @@ End Module"
                                 WithMessage("Option Strict On requires all variable declarations to have an 'As' clause.").
                                 WithSeverity(DiagnosticSeverity.Error)
 
-            Const FixedSource As String = "
-Imports System
+            Const FixedSource As String =
+"Imports System
 Imports AliasedType = NS.C(Of Integer)
 Namespace NS
     Public Class C(Of T)

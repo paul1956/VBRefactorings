@@ -166,7 +166,7 @@ Namespace Style
             Return Nothing
         End Function
 
-        Private Function GetAsClause(EnumSpecialHandling As Boolean, ExpressionValue As ExpressionSyntax, ByRef model As SemanticModel, ByRef variableITypeSymbol As ITypeSymbol) As AsClauseSyntax
+        Private Function GetAsClause(EnumSpecialHandling As Boolean, ExpressionValue As ExpressionSyntax, model As SemanticModel, variableITypeSymbol As ITypeSymbol) As AsClauseSyntax
             Dim FinalTypeSyntax As TypeSyntax = Nothing
             Try
                 Select Case ExpressionValue.Kind
@@ -202,8 +202,12 @@ Namespace Style
                         FinalTypeSyntax = DirectCast(ExpressionValue, TryCastExpressionSyntax).Type
                     Case SyntaxKind.ObjectCreationExpression
                         Dim ExpressionString As String = ExpressionValue.ToString
+
+                        Dim typ As TypeSyntax = TryCast(ExpressionValue, ObjectCreationExpressionSyntax).Type
+
                         Dim ClassName As String = ExpressionString.Trim.Replace("New ", "")
-                        If variableITypeSymbol.ToString.Trim.EndsWith(ClassName, StringComparison.InvariantCultureIgnoreCase) Then
+                        If variableITypeSymbol.ToString.Trim.EndsWith(ClassName, StringComparison.InvariantCultureIgnoreCase) OrElse
+                            typ.ToString.EndsWith(ClassName, StringComparison.InvariantCultureIgnoreCase) Then
                             Dim NewExpression As NewExpressionSyntax = CType(ParseExpression(ExpressionString), NewExpressionSyntax)
                             Return AsNewClause(Token(SyntaxKind.AsKeyword), NewExpression).WithTriviaFrom(ExpressionValue).WithAdditionalAnnotations(Simplifier.Annotation).NormalizeWhitespace()
                         End If
@@ -320,7 +324,7 @@ Namespace Style
             End If
         End Function
 
-        Private Function GetNewInvocation(ByRef lVariableDeclarator As VariableDeclaratorSyntax, ByRef model As SemanticModel, ByRef variableITypeSymbol As ITypeSymbol) As VariableDeclaratorSyntax
+        Private Function GetNewInvocation(lVariableDeclarator As VariableDeclaratorSyntax, model As SemanticModel, ByRef variableITypeSymbol As ITypeSymbol) As VariableDeclaratorSyntax
             Try
                 Dim lGetAsClause As AsClauseSyntax = GetAsClause(False, lVariableDeclarator.Initializer.Value, model, variableITypeSymbol)
                 If lGetAsClause Is Nothing Then
@@ -329,7 +333,7 @@ Namespace Style
                 If lGetAsClause.ToString.Contains("As New ") Then
                     Return lVariableDeclarator.ReplaceNode(lVariableDeclarator, VariableDeclarator(lVariableDeclarator.Names, lGetAsClause, Nothing).WithAdditionalAnnotations(Simplifier.Annotation)).WithAdditionalAnnotations(Simplifier.Annotation)
                 End If
-                Return lVariableDeclarator.ReplaceNode(lVariableDeclarator, VariableDeclarator(lVariableDeclarator.Names, lGetAsClause.WithTrailingTrivia(Space), lVariableDeclarator.Initializer).WithAdditionalAnnotations(Simplifier.Annotation))
+                Return lVariableDeclarator.WithAsClause(lGetAsClause.WithTrailingTrivia(Whitespace(" "))).WithInitializer(lVariableDeclarator.Initializer)
             Catch ex As Exception When ex.HResult <> (New OperationCanceledException).HResult
                 Stop
                 Throw
@@ -585,12 +589,7 @@ Namespace Style
                     Return Nothing
                 End If
                 If TypeOf oldControlVariable Is IdentifierNameSyntax Then
-                    newControlVariable = VariableDeclarator(SingletonSeparatedList(
-                                                                ModifiedIdentifier(DirectCast(oldControlVariable, IdentifierNameSyntax).Identifier)),
-                                                                AsClause,
-                                                                initializer:=Nothing
-                                                                ).
-                                                                WithTriviaFrom(oldControlVariable).WithAdditionalAnnotations(Simplifier.Annotation, Formatter.Annotation)
+                    Return VariableDeclarator(ModifiedIdentifier(DirectCast(oldControlVariable, IdentifierNameSyntax).Identifier)).WithAsClause(AsClause).WithTriviaFrom(oldControlVariable)
                 ElseIf TypeOf oldControlVariable Is VariableDeclaratorSyntax Then
                     Dim oldControlVariable1 As VariableDeclaratorSyntax = DirectCast(oldControlVariable, VariableDeclaratorSyntax)
                     If oldControlVariable1.Names.Count <> 1 Then
@@ -626,12 +625,8 @@ Namespace Style
                     Return NewControlVariable
                 End If
                 If TypeOf oldControlVariable Is IdentifierNameSyntax Then
-                    NewControlVariable = VariableDeclarator(SingletonSeparatedList(
-                                                                ModifiedIdentifier(DirectCast(oldControlVariable, IdentifierNameSyntax).Identifier)),
-                                                                AsClause,
-                                                                initializer:=Nothing
-                                                                ).
-                                                                WithTriviaFrom(oldControlVariable).WithAdditionalAnnotations(Simplifier.Annotation, Formatter.Annotation)
+                    Return VariableDeclarator(ModifiedIdentifier(DirectCast(oldControlVariable, IdentifierNameSyntax).Identifier)).WithAsClause(AsClause).
+                        WithTriviaFrom(oldControlVariable)
                 ElseIf TypeOf oldControlVariable Is VariableDeclaratorSyntax Then
                     Dim oldControlVariable1 As VariableDeclaratorSyntax = DirectCast(oldControlVariable, VariableDeclaratorSyntax)
                     If oldControlVariable1.Names.Count <> 1 Then
