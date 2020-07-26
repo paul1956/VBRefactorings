@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="VBRefactoring43f5da5f-6ef1-46ab-b2d8-3171010b14c5" Version="2.6" Language="en-US" Publisher="Paul M Cohen" />
-        <DisplayName>Visual Basic Refactoring</DisplayName>
-        <Description xml:space="preserve">Code refactoring written in Visual Basic, including Add As Clause and Remove ByVal</Description>
+        <Identity Id="AddAsClause.VSIX.6a707e0a-4c5f-4d20-bef0-d39e6ba4daea" Version="2.6" Language="en-US" Publisher="Paul M Cohen" />
+        <DisplayName>AddAsClause.VSIX</DisplayName>
+        <Description xml:space="preserve">VB Refactoring, including Add As Clause</Description>
+        <MoreInfo>https://github.com/paul1956/VBRefactorings</MoreInfo>
         <License>license.txt</License>
         <Icon>Images\VBCodeRefactoring-logo90.png</Icon>
         <PreviewImage>Images\refactoringessentials-preview.png</PreviewImage>
-        <Tags>Refactoring Visual Basic</Tags>
+        <Tags>As Clause Refactoring</Tags>
         <Preview>true</Preview>
     </Metadata>
     <Installation>
@@ -16,10 +17,10 @@
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
     </Dependencies>
-    <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="VBRefactorings" Path="|VBRefactorings;PkgdefProjectOutputGroup|" />
-    </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
 </PackageManifest>
