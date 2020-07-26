@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <RootNamespace>UnitTestProject1</RootNamespace>
-    <AssemblyName>UnitTestProject1</AssemblyName>
+    <RootNamespace>VBRefactoringsTests</RootNamespace>
+    <AssemblyName>VBRefactoringsTests</AssemblyName>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <NeutralLanguage>en-US</NeutralLanguage>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="My Project\Settings.Designer.vb" />
+    <Compile Remove="Tests\ConvertStringToXMLLiteralUnitTests.vb" />
     <Compile Remove="Tests\MoveStringToResource.UnitTests.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +36,7 @@
     <Compile Update="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Update="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
