@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Collections.Immutable
 Imports Microsoft.CodeAnalysis
@@ -132,7 +133,7 @@ Namespace Style
                             Exit Sub
                         End If
 
-                        If (Not node.MatchesKind(
+                        If Not node.MatchesKind(
                             SyntaxKind.AddExpression,
                             SyntaxKind.AndAlsoExpression,
                             SyntaxKind.AndExpression,
@@ -179,8 +180,7 @@ Namespace Style
                             SyntaxKind.TupleExpression,
                             SyntaxKind.TypeOfIsExpression,
                             SyntaxKind.UnaryMinusExpression
-                            )
-                    ) Then
+                            ) Then
                             Debug.Print($"Node.IsKind list is missing {node.Kind}")
                             Stop    ' Don't think this list is complete
                         End If

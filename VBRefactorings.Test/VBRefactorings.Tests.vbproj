@@ -23,7 +23,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="My Project\Settings.Designer.vb" />
-    <Compile Remove="Tests\ConvertStringToXMLLiteralUnitTests.vb" />
     <Compile Remove="Tests\MoveStringToResource.UnitTests.vb" />
   </ItemGroup>
   <ItemGroup>

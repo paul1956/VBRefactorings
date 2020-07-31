@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Collections.Immutable
 Imports System.Composition
@@ -101,7 +102,7 @@ Namespace Style
             ' Register a code action that will invoke the fix.
             Dim CodeAction As CodeAction = CodeAction.Create(
                 Title,
-                createChangedDocument:=Function(c) RemoveByValOccuranceAsync(context.Document, paramList, c),
+                createChangedDocument:=Function(c) Me.RemoveByValOccuranceAsync(context.Document, paramList, c),
                 equivalenceKey:=Title)
             context.RegisterCodeFix(CodeAction, FirstDiagnostic)
         End Function

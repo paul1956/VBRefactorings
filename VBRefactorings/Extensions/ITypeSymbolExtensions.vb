@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Collections.Immutable
 Imports System.ComponentModel
@@ -148,7 +149,7 @@ Namespace Utilities
 
             Dim originalContainingType As INamedTypeSymbol = containingType.OriginalDefinition
             Dim withinNamedType As INamedTypeSymbol = TryCast(within, INamedTypeSymbol)
-            Dim withinAssembly As IAssemblySymbol = If((TryCast(within, IAssemblySymbol)), DirectCast(within, INamedTypeSymbol).ContainingAssembly)
+            Dim withinAssembly As IAssemblySymbol = If(TryCast(within, IAssemblySymbol), DirectCast(within, INamedTypeSymbol).ContainingAssembly)
 
             ' A nested symbol is only accessible to us if its container is accessible as well.
             If Not IsNamedTypeAccessible(containingType, within) Then

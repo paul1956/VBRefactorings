@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Composition
 Imports System.Threading
@@ -40,9 +41,9 @@ Namespace Style
 
             If token.Kind = SyntaxKind.ByValKeyword AndAlso token.Span.IntersectsWith(CurrentTextSpan.Start) Then
                 context.RegisterRefactoring(New ByValAnalyzerFixCodeFixProvider.ByValAnalyzerFixCodeFixProviderCodeAction("Remove unnecessary ByVal keyword",
-                                                                  CType(Function(c As CancellationToken) RemoveOccuranceAsync(CurrentDocument, token, c), Func(Of Object, Task(Of Document)))))
+                                                                  CType(Function(c As CancellationToken) Me.RemoveOccuranceAsync(CurrentDocument, token, c), Func(Of Object, Task(Of Document)))))
                 context.RegisterRefactoring(New ByValAnalyzerFixCodeFixProvider.ByValAnalyzerFixCodeFixProviderCodeAction("Remove all occurrences of unnecessary ByVal keywords",
-                                                                  CType(Function(c As CancellationToken) RemoveAllOccurancesAsync(CurrentDocument, c), Func(Of Object, Task(Of Document)))))
+                                                                  CType(Function(c As CancellationToken) Me.RemoveAllOccurancesAsync(CurrentDocument, c), Func(Of Object, Task(Of Document)))))
             End If
         End Function
 

@@ -4,9 +4,8 @@
 
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.CodeRefactorings
-Imports UnitTestProject1.Roslyn.UnitTestFramework
 Imports VBRefactorings.Style
-
+Imports VBRefactoringsTests.Roslyn.UnitTestFramework
 Imports Xunit
 
 <TestClass()> Public Class ConvertStringToXMLLiteralUnitTests
@@ -37,7 +36,7 @@ End Class"
     End Class</text>.Value
     End Sub
 End Class"
-        Test(code, expected)
+        Me.Test(code, expected)
     End Sub
 
 End Class

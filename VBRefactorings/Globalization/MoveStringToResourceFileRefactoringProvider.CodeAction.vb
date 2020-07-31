@@ -6,11 +6,9 @@ Imports System.Threading
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.CodeActions
 
-Namespace Style
-
-    Partial Friend Class ConcatenateExpressionToInterpolatedStringRefactoringProvider
-
-        Private Class ConcatenateExpressionToInterpolatedStringCodeAction
+Namespace Globalization
+    Partial Public Class MoveStringToResourceFileRefactoringProvider
+        Private Class MoveStringToResourceFileCodeAction
             Inherits CodeAction
 
             Private ReadOnly _title As String
@@ -27,8 +25,8 @@ Namespace Style
                 End Get
             End Property
 
-            Protected Overrides Function GetChangedDocumentAsync(CancelToken As CancellationToken) As Task(Of Document)
-                Return _generateDocument(CancelToken)
+            Protected Overrides Function GetChangedDocumentAsync(cancellationToken As CancellationToken) As Task(Of Document)
+                Return _generateDocument(cancellationToken)
             End Function
 
         End Class

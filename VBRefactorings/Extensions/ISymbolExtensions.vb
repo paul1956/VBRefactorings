@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Option Infer Off
 Option Strict On
@@ -210,12 +211,12 @@ Public Module ISymbolExtensions
 
     <Extension>
     Public Function IsAttribute(ByVal symbol As ISymbol) As Boolean
-        Return CBool((TryCast(symbol, ITypeSymbol))?.IsAttribute() = True)
+        Return CBool(TryCast(symbol, ITypeSymbol)?.IsAttribute() = True)
     End Function
 
     <Extension>
     Public Function IsInterfaceType(ByVal symbol As ISymbol) As Boolean
-        Return CBool((TryCast(symbol, ITypeSymbol))?.IsInterfaceType() = True)
+        Return CBool(TryCast(symbol, ITypeSymbol)?.IsInterfaceType() = True)
     End Function
 
     <Extension>
@@ -225,7 +226,7 @@ Public Module ISymbolExtensions
 
     <Extension>
     Public Function IsModuleType(ByVal symbol As ISymbol) As Boolean
-        Return CBool((TryCast(symbol, ITypeSymbol))?.IsModuleType() = True)
+        Return CBool(TryCast(symbol, ITypeSymbol)?.IsModuleType() = True)
     End Function
 
     <Extension>

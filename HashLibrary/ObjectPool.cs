@@ -5,7 +5,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace CSharpToVB.PooledObjects
+namespace PooledObjects
 {
     /// <summary>
     /// Generic implementation of object pooling pattern with predefined pool size limit. The main

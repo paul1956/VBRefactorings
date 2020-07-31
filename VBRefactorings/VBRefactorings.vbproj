@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <OldToolsVersion>15.0</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
@@ -47,12 +47,21 @@
     <StartArguments>/rootsuffix Roslyn</StartArguments>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Globalization\**" />
+    <Compile Remove="Style\ConcatenateExpressionToInterpolatedString\**" />
+    <Compile Remove="Style\ConvertIfStatementToSelectCase\**" />
+    <Compile Remove="Style\RemoveAsClause\**" />
     <Compile Remove="Utils\**" />
-    <EmbeddedResource Remove="Globalization\**" />
+    <EmbeddedResource Remove="Style\ConcatenateExpressionToInterpolatedString\**" />
+    <EmbeddedResource Remove="Style\ConvertIfStatementToSelectCase\**" />
+    <EmbeddedResource Remove="Style\RemoveAsClause\**" />
     <EmbeddedResource Remove="Utils\**" />
-    <None Remove="Globalization\**" />
+    <None Remove="Style\ConcatenateExpressionToInterpolatedString\**" />
+    <None Remove="Style\ConvertIfStatementToSelectCase\**" />
+    <None Remove="Style\RemoveAsClause\**" />
     <None Remove="Utils\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Style\AddAsClause\AddAsClauseRefactoringProvider.vb" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources.Designer.vb">
@@ -76,5 +85,8 @@
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="3.6.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.6.0" />
     <PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Collections.Immutable
 Imports Microsoft.CodeAnalysis
@@ -105,14 +106,14 @@ Namespace Utilities
         End Function
 
         Public Function ReturnTypeEquals(ByVal x As IMethodSymbol, ByVal y As IMethodSymbol, Optional ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol) = Nothing) As Boolean
-            Return GetEquivalenceVisitor().ReturnTypesAreEquivalent(x, y, equivalentTypesWithDifferingAssemblies)
+            Return Me.GetEquivalenceVisitor().ReturnTypesAreEquivalent(x, y, equivalentTypesWithDifferingAssemblies)
         End Function
 
         ''' <summary>
         ''' Compares given symbols <paramref name="x"/> and <paramref name="y"/> for equivalence.
         ''' </summary>
         Public Shadows Function Equals(ByVal x As ISymbol, ByVal y As ISymbol) As Boolean Implements IEqualityComparer(Of ISymbol).Equals
-            Return EqualsCore(x, y, Nothing)
+            Return Me.EqualsCore(x, y, Nothing)
         End Function
 
         ''' <summary>
@@ -123,15 +124,15 @@ Namespace Utilities
         ''' <remarks>This API is only supported for <see cref="SymbolEquivalenceComparer.IgnoreAssembliesInstance"/>.</remarks>
         Public Shadows Function Equals(ByVal x As ISymbol, ByVal y As ISymbol, ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol)) As Boolean
             Debug.Assert(_assemblyComparerOpt Is Nothing)
-            Return EqualsCore(x, y, equivalentTypesWithDifferingAssemblies)
+            Return Me.EqualsCore(x, y, equivalentTypesWithDifferingAssemblies)
         End Function
 
         Private Function EqualsCore(ByVal x As ISymbol, ByVal y As ISymbol, ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol)) As Boolean
-            Return GetEquivalenceVisitor().AreEquivalent(x, y, equivalentTypesWithDifferingAssemblies)
+            Return Me.GetEquivalenceVisitor().AreEquivalent(x, y, equivalentTypesWithDifferingAssemblies)
         End Function
 
         Public Shadows Function GetHashCode(ByVal x As ISymbol) As Integer Implements IEqualityComparer(Of ISymbol).GetHashCode
-            Return GetGetHashCodeVisitor(compareMethodTypeParametersByIndex:=False, objectAndDynamicCompareEqually:=False).GetHashCode(x, currentHash:=0)
+            Return Me.GetGetHashCodeVisitor(compareMethodTypeParametersByIndex:=False, objectAndDynamicCompareEqually:=False).GetHashCode(x, currentHash:=0)
         End Function
 
         Private Shared Function UnwrapAlias(ByVal symbol As ISymbol) As ISymbol

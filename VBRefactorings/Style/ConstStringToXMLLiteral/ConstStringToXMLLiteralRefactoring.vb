@@ -107,7 +107,7 @@ Namespace Style
                 Return
             End If
 
-            context.RegisterRefactoring(CodeAction.Create($"Convert Const String to XML Literal", Function(c As CancellationToken) ConvertToXMLLiteralAsync(document, localDeclaration, _VariableDeclarator, c)))
+            context.RegisterRefactoring(CodeAction.Create($"Convert Const String to XML Literal", Function(c As CancellationToken) Me.ConvertToXMLLiteralAsync(document, localDeclaration, _VariableDeclarator, c)))
             Exit Function
         End Function
 

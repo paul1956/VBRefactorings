@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis
@@ -63,9 +64,9 @@ Public Module VBAnalyzerExtensions
     <Extension>
     Public Function HasAttributeOnAncestorOrSelf(node As SyntaxNode, ParamArray attributeNames As String()) As Boolean
         Dim vbNode As VisualBasicSyntaxNode = TryCast(node, VisualBasicSyntaxNode)
-        If (vbNode Is Nothing) Then Throw New Exception("Node is not a VB node.")
+        If vbNode Is Nothing Then Throw New Exception("Node is not a VB node.")
         For Each attributeName As String In attributeNames
-            If (vbNode.HasAttributeOnAncestorOrSelf(attributeName)) Then Return True
+            If vbNode.HasAttributeOnAncestorOrSelf(attributeName) Then Return True
         Next
         Return False
     End Function
@@ -77,7 +78,7 @@ Public Module VBAnalyzerExtensions
             Return True
         End If
         Dim type As TypeBlockSyntax = DirectCast(node.FirstAncestorOrSelfOfType(GetType(ClassBlockSyntax), GetType(StructureBlockSyntax)), TypeBlockSyntax)
-        While (type IsNot Nothing)
+        While type IsNot Nothing
             If type.BlockStatement.AttributeLists.HasAttribute(attributeName) Then Return True
             type = DirectCast(type.FirstAncestorOfType(GetType(ClassBlockSyntax), GetType(StructureBlockSyntax)), TypeBlockSyntax)
         End While

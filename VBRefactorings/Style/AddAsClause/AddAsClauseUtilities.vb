@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Imports System.Text
 Imports System.Threading
@@ -395,7 +396,7 @@ Namespace Style
             Else
                 TypeListSplit = GetTypesExtracted(TypeListString)
             End If
-            For k As Integer = 0 To (TypeListSplit.Count - 1) - FunctionOffset
+            For k As Integer = 0 To TypeListSplit.Count - 1 - FunctionOffset
                 If TypeListSplit(k).Contains("(") And Not TypeListSplit(k).Contains(")") Then
                     Throw New FormatException($"GetTypes Type contains '(' but not ')' - {TypeListSplit(k)}")
                 End If

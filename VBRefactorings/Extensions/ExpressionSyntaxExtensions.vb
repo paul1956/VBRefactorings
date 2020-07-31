@@ -1,6 +1,7 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
+'
 
 Option Explicit On
 Option Strict On
@@ -56,7 +57,7 @@ Public Module ExpressionSyntaxExtensions
                         Return (Model.Compilation.ObjectType, False)
                     End If
 
-                    If (typeInfo.Type.IsErrorType) Then
+                    If typeInfo.Type.IsErrorType Then
                         Return (Model.Compilation.ObjectType, True)
                     ElseIf SymbolEqualityComparer.Default.Equals(typeInfo.Type, Model.Compilation.ObjectType) Then
                         Return (Model.Compilation.ObjectType, False)
