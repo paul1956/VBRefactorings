@@ -15,8 +15,6 @@ Namespace Style
     Public Class ByValAnalyzerFixAnalyzer
         Inherits DiagnosticAnalyzer
 
-        Public Const DiagnosticId As String = RemoveByValDiagnosticId
-
         ' You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
         ' See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
         Private Shared ReadOnly Title As LocalizableString = New LocalizableResourceString(NameOf(My.Resources.Resources.RemoveByValTitle), My.Resources.Resources.ResourceManager, GetType(My.Resources.Resources))
@@ -26,7 +24,7 @@ Namespace Style
         Private Const Category As String = "Style"
 
         Private Shared ReadOnly Rule As New DiagnosticDescriptor(
-                                                    DiagnosticId,
+                                                    RemoveByValDiagnosticId,
                                                     Title,
                                                     MessageFormat,
                                                     Category,

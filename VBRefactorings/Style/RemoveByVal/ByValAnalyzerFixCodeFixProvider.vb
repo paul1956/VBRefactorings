@@ -26,7 +26,7 @@ Namespace Style
 
         Public NotOverridable Overrides ReadOnly Property FixableDiagnosticIds As ImmutableArray(Of String)
             Get
-                Return ImmutableArray.Create(ByValAnalyzerFixAnalyzer.DiagnosticId)
+                Return ImmutableArray.Create(RemoveByValDiagnosticId)
             End Get
         End Property
 

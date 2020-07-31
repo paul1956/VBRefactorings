@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AddAsClause.VSIX.6a707e0a-4c5f-4d20-bef0-d39e6ba4daea" Version="2.63" Language="en-US" Publisher="Paul M Cohen" />
+        <Identity Id="AddAsClause.VSIX.6a707e0a-4c5f-4d20-bef0-d39e6ba4daea" Version="2.64" Language="en-US" Publisher="Paul M Cohen" />
         <DisplayName>AddAsClause.VSIX</DisplayName>
         <Description xml:space="preserve">VB Refactoring, including Add As Clause</Description>
         <MoreInfo>https://github.com/paul1956/VBRefactorings</MoreInfo>
@@ -23,7 +23,6 @@
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
     <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="VBRefactorings" Path="|VBRefactorings|" />
         <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="VBRefactorings" Path="|VBRefactorings|" />
     </Assets>
