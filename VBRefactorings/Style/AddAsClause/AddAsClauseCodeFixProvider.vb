@@ -21,6 +21,8 @@ Namespace Style
     Partial Public Class AddAsClauseCodeFixProvider
         Inherits CodeFixProvider
 
+        Private Const Title As String = "Add As Clause To "
+
         Public NotOverridable Overrides ReadOnly Property FixableDiagnosticIds As ImmutableArray(Of String)
             Get
                 Return ImmutableArray.Create(AddAsClauseDiagnosticId,
@@ -63,7 +65,7 @@ Namespace Style
                     If PossibleVariableDeclaratorSyntax IsNot Nothing Then
                         If PossibleVariableDeclaratorSyntax.AsClause Is Nothing OrElse PossibleVariableDeclaratorSyntax.AsClause.GetText.ToString.Trim = "As Object" Then
                             Dim newVariable As SyntaxNode = AddAsClauseAsync(Root, Model, Context.Document, DirectCast(VariableDeclaration, VariableDeclaratorSyntax))
-                            Dim action As AddAsClauseCodeFixProviderCodeAction = New AddAsClauseCodeFixProviderCodeAction("Add As Clause", Context.Document, VariableDeclaration, newVariable)
+                            Dim action As AddAsClauseCodeFixProviderCodeAction = New AddAsClauseCodeFixProviderCodeAction(Title, Context.Document, VariableDeclaration, newVariable, "Dim")
                             Context.RegisterCodeFix(action, Context.Diagnostics)
                             Exit Function
                         End If
@@ -72,19 +74,19 @@ Namespace Style
                 Dim LambdaHeader As SyntaxNode = Root.FindToken(DiagnosticSpanStart).Parent.FirstAncestorOrSelfOfType(GetType(LambdaHeaderSyntax))
                 If LambdaHeader IsNot Nothing Then
                     Dim newLambdaStatement As SyntaxNode = AddAsClauseAsync(Model, Context.Document, DirectCast(LambdaHeader, LambdaHeaderSyntax))
-                    Context.RegisterCodeFix(New AddAsClauseCodeFixProviderCodeAction("Add As Clause", Context.Document, LambdaHeader, newLambdaStatement), Context.Diagnostics)
+                    Context.RegisterCodeFix(New AddAsClauseCodeFixProviderCodeAction(Title, Context.Document, LambdaHeader, newLambdaStatement, "Lambda"), Context.Diagnostics)
                     Exit Function
                 End If
                 Dim ForStatement As SyntaxNode = Root.FindToken(DiagnosticSpanStart).Parent.FirstAncestorOrSelfOfType(GetType(ForStatementSyntax))
                 If ForStatement IsNot Nothing Then
                     Dim newForStatement As SyntaxNode = Await AddAsClauseAsync(Context.Document, DirectCast(ForStatement, ForStatementSyntax), Context.CancellationToken)
-                    Context.RegisterCodeFix(New AddAsClauseCodeFixProviderCodeAction("Add As Clause", Context.Document, ForStatement, newForStatement), Context.Diagnostics)
+                    Context.RegisterCodeFix(New AddAsClauseCodeFixProviderCodeAction(Title, Context.Document, ForStatement, newForStatement, "For Statement"), Context.Diagnostics)
                     Exit Function
                 End If
                 Dim ForEachStatement As SyntaxNode = Root.FindToken(DiagnosticSpanStart).Parent.FirstAncestorOrSelfOfType(GetType(ForEachStatementSyntax))
                 If ForEachStatement IsNot Nothing Then
                     Dim newForEachStatement As SyntaxNode = Await AddAsClauseAsync(Context.Document, DirectCast(ForEachStatement, ForEachStatementSyntax), Context.CancellationToken)
-                    Context.RegisterCodeFix(New AddAsClauseCodeFixProviderCodeAction("Add As Clause", Context.Document, ForEachStatement, newForEachStatement), Context.Diagnostics)
+                    Context.RegisterCodeFix(New AddAsClauseCodeFixProviderCodeAction(Title, Context.Document, ForEachStatement, newForEachStatement, "For Each statement"), Context.Diagnostics)
                 End If
             Catch ex As Exception When ex.HResult <> (New OperationCanceledException).HResult
                 Stop
