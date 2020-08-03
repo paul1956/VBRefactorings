@@ -1,11 +1,6 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
-'
-
-Option Explicit On
-Option Infer Off
-Option Strict On
 
 Imports System.Collections.Immutable
 Imports System.Composition
@@ -70,7 +65,7 @@ Namespace Style
                 If _VariableDeclarator.Initializer Is Nothing Then
                     Return
                 End If
-                context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) AddAsClauseAsync(_Document, _VariableDeclarator, c)))
+                context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) AddAsClauseDocumentAsync(root, model, _Document, _VariableDeclarator, c)))
                 Exit Function
             End If
             Dim ForStatement As ForStatementSyntax = root.FindNode(context.Span, getInnermostNodeForTie:=True)?.FirstAncestorOrSelf(Of ForStatementSyntax)()
@@ -80,7 +75,7 @@ Namespace Style
 
                 Dim ControlVariableName As IdentifierNameSyntax = TryCast(ControlVariable, IdentifierNameSyntax)
                 If ControlVariableName?.Kind = SyntaxKind.IdentifierName Then
-                    context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) AddAsClauseAsync(_Document, ForStatement, c)))
+                    context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) AddAsClauseDocumentAsync(_Document, ForStatement, c)))
                 End If
                 Exit Function
             End If
@@ -93,7 +88,7 @@ Namespace Style
             If ForEachControlVariable Is Nothing Then Return
             Dim IdentifierName As IdentifierNameSyntax = TryCast(ForEachControlVariable, IdentifierNameSyntax)
             If IdentifierName?.Kind = SyntaxKind.IdentifierName Then
-                context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) AddAsClauseAsync(_Document, ForEachStatement, c)))
+                context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) AddAsClauseDocumentAsync(_Document, ForEachStatement, c)))
             End If
         End Function
 

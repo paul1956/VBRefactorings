@@ -45,6 +45,8 @@
     <StartAction>Program</StartAction>
     <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Roslyn</StartArguments>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Globalization\**" />
@@ -62,9 +64,6 @@
     <None Remove="Style\ConvertIfStatementToSelectCase\**" />
     <None Remove="Style\RemoveAsClause\**" />
     <None Remove="Utils\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Style\AddAsClause\AddAsClauseRefactoringProvider.vb" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources.Designer.vb">

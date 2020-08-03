@@ -1,5 +1,4 @@
-﻿Option Infer Off
-
+﻿
 Imports Microsoft.CodeAnalysis.Formatting
 
 Namespace Style

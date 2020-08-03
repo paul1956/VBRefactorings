@@ -1,11 +1,11 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
-'
 
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.CodeAnalysis
+Imports Microsoft.CodeAnalysis.Editing
 Imports Microsoft.CodeAnalysis.Formatting
 Imports Microsoft.CodeAnalysis.Simplification
 Imports Microsoft.CodeAnalysis.VisualBasic
@@ -566,6 +566,24 @@ Namespace Style
             Catch ex As Exception
                 Throw
             End Try
+        End Function
+
+        Public Async Function AddAsClauseDocumentAsync(root As SyntaxNode, Model As SemanticModel, CurrentDocument As Document, OldVariableDeclarator As VariableDeclaratorSyntax, CancelToken As CancellationToken) As Task(Of Document)
+            Dim editor As DocumentEditor = Await DocumentEditor.CreateAsync(CurrentDocument, CancelToken)
+            editor.ReplaceNode(OldVariableDeclarator, AddAsClauseAsync(root, Model, CurrentDocument, OldVariableDeclarator))
+            Return editor.GetChangedDocument
+        End Function
+
+        Public Async Function AddAsClauseDocumentAsync(CurrentDocument As Document, ForStatement As ForStatementSyntax, CancelToken As CancellationToken) As Task(Of Document)
+            Dim editor As DocumentEditor = Await DocumentEditor.CreateAsync(CurrentDocument, CancelToken)
+            editor.ReplaceNode(ForStatement, Await AddAsClauseAsync(CurrentDocument, ForStatement, CancelToken))
+            Return editor.GetChangedDocument
+        End Function
+
+        Public Async Function AddAsClauseDocumentAsync(CurrentDocument As Document, ForEachStatement As ForEachStatementSyntax, CancelToken As CancellationToken) As Task(Of Document)
+            Dim editor As DocumentEditor = Await DocumentEditor.CreateAsync(CurrentDocument, CancelToken)
+            editor.ReplaceNode(ForEachStatement, Await AddAsClauseAsync(CurrentDocument, ForEachStatement, CancelToken))
+            Return editor.GetChangedDocument
         End Function
 
         Public Async Function NewForControlVariableWithAsClause(CurrentDocument As Document, ForStatement As ForStatementSyntax, CancelToken As CancellationToken) As Task(Of VariableDeclaratorSyntax)
