@@ -1,9 +1,6 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
-'
-
-Option Infer Off
 
 Imports HashLibrary
 Imports Microsoft.CodeAnalysis
@@ -18,12 +15,12 @@ Namespace Utilities
             Private ReadOnly _symbolEqualityComparer As SymbolEquivalenceComparer
             Private ReadOnly _distinguishRefFromOut As Boolean
 
-            Public Sub New(ByVal symbolEqualityComparer As SymbolEquivalenceComparer, ByVal distinguishRefFromOut As Boolean)
+            Public Sub New(symbolEqualityComparer As SymbolEquivalenceComparer, distinguishRefFromOut As Boolean)
                 _symbolEqualityComparer = symbolEqualityComparer
                 _distinguishRefFromOut = distinguishRefFromOut
             End Sub
 
-            Public Shadows Function Equals(ByVal x As IParameterSymbol, ByVal y As IParameterSymbol, ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol), ByVal compareParameterName As Boolean, ByVal isCaseSensitive As Boolean) As Boolean
+            Public Shadows Function Equals(x As IParameterSymbol, y As IParameterSymbol, equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol), compareParameterName As Boolean, isCaseSensitive As Boolean) As Boolean
                 If ReferenceEquals(x, y) Then
                     Return True
                 End If
@@ -43,15 +40,15 @@ Namespace Utilities
                 Return AreRefKindsEquivalent(x.RefKind, y.RefKind, _distinguishRefFromOut) AndAlso nameComparisonCheck AndAlso _symbolEqualityComparer.GetEquivalenceVisitor().AreEquivalent(x.CustomModifiers, y.CustomModifiers, equivalentTypesWithDifferingAssemblies) AndAlso _symbolEqualityComparer.SignatureTypeEquivalenceComparer.Equals(x.Type, y.Type, equivalentTypesWithDifferingAssemblies)
             End Function
 
-            Public Shadows Function Equals(ByVal x As IParameterSymbol, ByVal y As IParameterSymbol) As Boolean Implements IEqualityComparer(Of IParameterSymbol).Equals
+            Public Shadows Function Equals(x As IParameterSymbol, y As IParameterSymbol) As Boolean Implements IEqualityComparer(Of IParameterSymbol).Equals
                 Return Me.Equals(x, y, Nothing, False, False)
             End Function
 
-            Public Shadows Function Equals(ByVal x As IParameterSymbol, ByVal y As IParameterSymbol, ByVal compareParameterName As Boolean, ByVal isCaseSensitive As Boolean) As Boolean
+            Public Shadows Function Equals(x As IParameterSymbol, y As IParameterSymbol, compareParameterName As Boolean, isCaseSensitive As Boolean) As Boolean
                 Return Me.Equals(x, y, Nothing, compareParameterName, isCaseSensitive)
             End Function
 
-            Public Shadows Function GetHashCode(ByVal x As IParameterSymbol) As Integer Implements IEqualityComparer(Of IParameterSymbol).GetHashCode
+            Public Shadows Function GetHashCode(x As IParameterSymbol) As Integer Implements IEqualityComparer(Of IParameterSymbol).GetHashCode
                 If x Is Nothing Then
                     Return 0
                 End If
@@ -61,7 +58,7 @@ Namespace Utilities
 
         End Class
 
-        Public Shared Function AreRefKindsEquivalent(ByVal rk1 As RefKind, ByVal rk2 As RefKind, ByVal distinguishRefFromOut As Boolean) As Boolean
+        Public Shared Function AreRefKindsEquivalent(rk1 As RefKind, rk2 As RefKind, distinguishRefFromOut As Boolean) As Boolean
             Return If(distinguishRefFromOut, rk1 = rk2, rk1 = RefKind.None = (rk2 = RefKind.None))
         End Function
 

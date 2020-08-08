@@ -6,7 +6,7 @@ Imports System.Runtime.CompilerServices
 
 Public Module MemoryUsage
 
-    Public Function IsEnoughMemoryReport(ByVal OperationsCount As Integer, ByVal DocumentIdCount As Integer, ByVal CodeActionCount As Integer, codeActionTotal As Integer, Optional Limit As Long = 2516582400L) As Boolean
+    Public Function IsEnoughMemoryReport(OperationsCount As Integer, DocumentIdCount As Integer, CodeActionCount As Integer, codeActionTotal As Integer, Optional Limit As Long = 2516582400L) As Boolean
         Dim c As Process = Process.GetCurrentProcess
         Dim WorkingSet As Long = c.WorkingSet64
         Dim PrivateBytes As Long = c.PagedMemorySize64

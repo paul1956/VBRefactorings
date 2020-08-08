@@ -8,7 +8,7 @@ Namespace Roslyn.UnitTestFramework
     Friend Module DictionaryExtensions
         ' Copied from ConcurrentDictionary since IDictionary doesn't have this useful method
         <Extension>
-        Public Function GetOrAdd(Of TKey, TValue)(ByVal dictionary As IDictionary(Of TKey, TValue), ByVal key As TKey, ByVal [function] As Func(Of TKey, TValue)) As TValue
+        Public Function GetOrAdd(Of TKey, TValue)(dictionary As IDictionary(Of TKey, TValue), key As TKey, [function] As Func(Of TKey, TValue)) As TValue
             Dim value As TValue = Nothing
             If Not dictionary.TryGetValue(key, value) Then
                 value = [function](key)
@@ -19,7 +19,7 @@ Namespace Roslyn.UnitTestFramework
         End Function
 
         <Extension>
-        Public Function GetOrAdd(Of TKey, TValue)(ByVal dictionary As IDictionary(Of TKey, TValue), ByVal key As TKey, ByVal [function] As Func(Of TValue)) As TValue
+        Public Function GetOrAdd(Of TKey, TValue)(dictionary As IDictionary(Of TKey, TValue), key As TKey, [function] As Func(Of TValue)) As TValue
             Return dictionary.GetOrAdd(key, Function(underscore As TKey) [function]())
         End Function
     End Module

@@ -8,7 +8,7 @@ Partial Friend MustInherit Class Matcher(Of T)
 
         Private ReadOnly _matcher As Matcher(Of T)
 
-        Public Sub New(ByVal M As Matcher(Of T))
+        Public Sub New(M As Matcher(Of T))
             _matcher = M
         End Sub
 
@@ -16,7 +16,7 @@ Partial Friend MustInherit Class Matcher(Of T)
             Return String.Format("({0}*)", _matcher)
         End Function
 
-        Public Overrides Function TryMatch(ByVal sequence As IList(Of T), ByRef index As Integer) As Boolean
+        Public Overrides Function TryMatch(sequence As IList(Of T), ByRef index As Integer) As Boolean
             Do While _matcher.TryMatch(sequence, index)
             Loop
 

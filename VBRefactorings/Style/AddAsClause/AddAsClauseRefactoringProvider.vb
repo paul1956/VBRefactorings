@@ -18,7 +18,7 @@ Namespace Style
     Public Class AddAsClauseRefactoringProvider
         Inherits CodeRefactoringProvider
 
-        Private Const Title As String = "Add As Clause refactoring"
+        Private Const Title As String = "Add As Clause"
         Private ReadOnly Property FixableDiagnosticIds As ImmutableArray(Of String) = ImmutableArray.Create(
             AddAsClauseDiagnosticId,
             AddAsClauseForLambdaDiagnosticId,

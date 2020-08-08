@@ -1,7 +1,6 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
-'
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis
@@ -14,7 +13,7 @@ Friend Module VBUtil
     ''' When negating an expression this is required, otherwise you would end up with
     ''' a or b -> !a or b
     ''' </summary>
-    Public Function AddParensForUnaryExpressionIfRequired(ByVal expression As ExpressionSyntax) As ExpressionSyntax
+    Public Function AddParensForUnaryExpressionIfRequired(expression As ExpressionSyntax) As ExpressionSyntax
         If (TypeOf expression Is BinaryExpressionSyntax) OrElse (TypeOf expression Is CastExpressionSyntax) OrElse (TypeOf expression Is LambdaExpressionSyntax) Then
             Return SyntaxFactory.ParenthesizedExpression(expression)
         End If
@@ -22,7 +21,7 @@ Friend Module VBUtil
         Return expression
     End Function
 
-    Public Function GetExpressionOperatorTokenKind(ByVal op As SyntaxKind) As SyntaxKind
+    Public Function GetExpressionOperatorTokenKind(op As SyntaxKind) As SyntaxKind
         Select Case op
             Case SyntaxKind.EqualsExpression
                 Return SyntaxKind.EqualsToken
@@ -78,7 +77,7 @@ Friend Module VBUtil
     ''' Inverts a boolean condition. Note: The condition object can be frozen (from AST) it's cloned internally.
     ''' </summary>
     ''' <param name="condition">The condition to invert.</param>
-    Public Function InvertCondition(ByVal condition As ExpressionSyntax) As ExpressionSyntax
+    Public Function InvertCondition(condition As ExpressionSyntax) As ExpressionSyntax
         If TypeOf condition Is ParenthesizedExpressionSyntax Then
             Return SyntaxFactory.ParenthesizedExpression(InvertCondition(CType(condition, ParenthesizedExpressionSyntax).Expression))
         End If
@@ -125,7 +124,7 @@ Friend Module VBUtil
     End Function
 
     <Extension>
-    Public Function IsKind(ByVal node As SyntaxNode, ByVal kind1 As SyntaxKind, ByVal kind2 As SyntaxKind) As Boolean
+    Public Function IsKind(node As SyntaxNode, kind1 As SyntaxKind, kind2 As SyntaxKind) As Boolean
         If node Is Nothing Then
             Return False
         End If
@@ -135,7 +134,7 @@ Friend Module VBUtil
     End Function
 
     <Extension>
-    Public Function IsKind(ByVal node As SyntaxNode, ByVal kind1 As SyntaxKind, ByVal kind2 As SyntaxKind, ByVal kind3 As SyntaxKind) As Boolean
+    Public Function IsKind(node As SyntaxNode, kind1 As SyntaxKind, kind2 As SyntaxKind, kind3 As SyntaxKind) As Boolean
         If node Is Nothing Then
             Return False
         End If
@@ -145,7 +144,7 @@ Friend Module VBUtil
     End Function
 
     <Extension>
-    Public Function IsKind(ByVal node As SyntaxNode, ByVal kind1 As SyntaxKind, ByVal kind2 As SyntaxKind, ByVal kind3 As SyntaxKind, ByVal kind4 As SyntaxKind) As Boolean
+    Public Function IsKind(node As SyntaxNode, kind1 As SyntaxKind, kind2 As SyntaxKind, kind3 As SyntaxKind, kind4 As SyntaxKind) As Boolean
         If node Is Nothing Then
             Return False
         End If
@@ -155,7 +154,7 @@ Friend Module VBUtil
     End Function
 
     <Extension>
-    Public Function IsKind(ByVal node As SyntaxNode, ByVal kind1 As SyntaxKind, ByVal kind2 As SyntaxKind, ByVal kind3 As SyntaxKind, ByVal kind4 As SyntaxKind, ByVal kind5 As SyntaxKind) As Boolean
+    Public Function IsKind(node As SyntaxNode, kind1 As SyntaxKind, kind2 As SyntaxKind, kind3 As SyntaxKind, kind4 As SyntaxKind, kind5 As SyntaxKind) As Boolean
         If node Is Nothing Then
             Return False
         End If
@@ -170,7 +169,7 @@ Friend Module VBUtil
     ''' <returns>
     ''' negation of the specified condition operator, or BinaryOperatorType.Any if it's not a condition operator
     ''' </returns>
-    Public Function NegateConditionOperator(ByVal op As SyntaxKind) As SyntaxKind
+    Public Function NegateConditionOperator(op As SyntaxKind) As SyntaxKind
         Select Case op
             Case SyntaxKind.OrExpression
                 Return SyntaxKind.AndExpression
@@ -190,7 +189,7 @@ Friend Module VBUtil
     ''' <returns>
     ''' negation of the specified relational operator, or BinaryOperatorType.Any if it's not a relational operator
     ''' </returns>
-    Public Function NegateRelationalOperator(ByVal op As SyntaxKind) As SyntaxKind
+    Public Function NegateRelationalOperator(op As SyntaxKind) As SyntaxKind
         Select Case op
             Case SyntaxKind.EqualsExpression
                 Return SyntaxKind.NotEqualsExpression

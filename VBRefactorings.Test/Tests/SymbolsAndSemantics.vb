@@ -24,7 +24,7 @@ Public Class SymbolsAndSemantics
         builder.AppendLine(symbol.ToString())
 
         For Each childSymbol As ISymbol In GetMembers(symbol)
-            EnumSymbols(childSymbol, builder)
+            Me.EnumSymbols(childSymbol, builder)
         Next
     End Sub
 
@@ -136,7 +136,7 @@ End Class
         Dim globalNamespace As INamespaceSymbol = comp.SourceModule.GlobalNamespace
 
         Dim builder As StringBuilder = New StringBuilder()
-        EnumSymbols(globalNamespace, builder)
+        Me.EnumSymbols(globalNamespace, builder)
 
         Dim expected As String = "Global" & vbCrLf &
                                  "My" & vbCrLf &

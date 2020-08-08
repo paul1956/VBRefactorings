@@ -8,7 +8,7 @@ Imports Microsoft.CodeAnalysis
 Public Module IParameterSymbolExtensions
 
     <Runtime.CompilerServices.Extension>
-    Public Function IsRefOrOut(ByVal symbol As IParameterSymbol) As Boolean
+    Public Function IsRefOrOut(symbol As IParameterSymbol) As Boolean
         Return symbol.RefKind <> RefKind.None
     End Function
 

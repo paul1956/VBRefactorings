@@ -1,7 +1,6 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
-'
 
 Imports System.Collections.Immutable
 Imports System.ComponentModel
@@ -132,7 +131,7 @@ Namespace Utilities
         ' Determine if "type" inherits from "baseType", ignoring constructed types, and dealing
         ' only with original types.
         <Extension>
-        Public Function InheritsFromOrEqualsIgnoringConstruction(ByVal type As ITypeSymbol, ByVal baseType As ITypeSymbol) As Boolean
+        Public Function InheritsFromOrEqualsIgnoringConstruction(type As ITypeSymbol, baseType As ITypeSymbol) As Boolean
             Dim originalBaseType As ITypeSymbol = baseType.OriginalDefinition
             Return type.GetBaseTypesAndThis().Contains(Function(t As ITypeSymbol) SymbolEquivalenceComparer.Instance.Equals(t.OriginalDefinition, originalBaseType))
         End Function

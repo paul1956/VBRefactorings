@@ -6,12 +6,12 @@ Imports System.Runtime.CompilerServices
 
 Public Module Extensions
     <Extension>
-    Public Function ToDiagnosticId(ByVal diagnosticId As DiagnosticId) As String
+    Public Function ToDiagnosticId(diagnosticId As DiagnosticId) As String
         Return $"CC{CInt(Math.Truncate(diagnosticId)):D4}"
     End Function
 
     <Extension>
-    Public Function AddRange(Of K, V)(ByVal dictionary As IDictionary(Of K, V), ByVal newValues As IDictionary(Of K, V)) As IDictionary(Of K, V)
+    Public Function AddRange(Of K, V)(dictionary As IDictionary(Of K, V), newValues As IDictionary(Of K, V)) As IDictionary(Of K, V)
         If dictionary Is Nothing OrElse newValues Is Nothing Then
             Return dictionary
         End If
@@ -22,12 +22,12 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Public Function EndsWithAny(ByVal text As String, ParamArray ByVal values() As String) As Boolean
+    Public Function EndsWithAny(text As String, ParamArray values() As String) As Boolean
         Return text.EndsWithAny(StringComparison.CurrentCulture, values)
     End Function
 
     <Extension>
-    Public Function EndsWithAny(ByVal text As String, ByVal comparisonType As StringComparison, ParamArray ByVal values() As String) As Boolean
+    Public Function EndsWithAny(text As String, comparisonType As StringComparison, ParamArray values() As String) As Boolean
         For Each value As String In values
             If text.EndsWith(value, comparisonType) Then
                 Return True
@@ -37,7 +37,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Public Function ToLowerCaseFirstLetter(ByVal text As String) As String
+    Public Function ToLowerCaseFirstLetter(text As String) As String
         If String.IsNullOrWhiteSpace(text) Then
             Return text
         End If

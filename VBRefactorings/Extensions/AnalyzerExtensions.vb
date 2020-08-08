@@ -8,7 +8,7 @@ Imports Microsoft.CodeAnalysis
 Public Module AnalyzerExtensions
 
     <Extension>
-    Public Iterator Function AllBaseTypes(ByVal typeSymbol As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
+    Public Iterator Function AllBaseTypes(typeSymbol As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
         Do While typeSymbol.BaseType IsNot Nothing
             Yield typeSymbol.BaseType
             typeSymbol = typeSymbol.BaseType
@@ -16,7 +16,7 @@ Public Module AnalyzerExtensions
     End Function
 
     <Extension>
-    Public Iterator Function AllBaseTypesAndSelf(ByVal typeSymbol As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
+    Public Iterator Function AllBaseTypesAndSelf(typeSymbol As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
         Yield typeSymbol
         For Each b As INamedTypeSymbol In AllBaseTypes(typeSymbol)
             Yield b
@@ -24,7 +24,7 @@ Public Module AnalyzerExtensions
     End Function
 
     <Extension>
-    Public Function FirstAncestorOfType(Of T As SyntaxNode)(ByVal node As SyntaxNode) As T
+    Public Function FirstAncestorOfType(Of T As SyntaxNode)(node As SyntaxNode) As T
         Dim currentNode As SyntaxNode = node
         Do
             Dim parent As SyntaxNode = currentNode.Parent
@@ -41,7 +41,7 @@ Public Module AnalyzerExtensions
     End Function
 
     <Extension>
-    Public Function FirstAncestorOfType(ByVal node As SyntaxNode, ParamArray ByVal types() As Type) As SyntaxNode
+    Public Function FirstAncestorOfType(node As SyntaxNode, ParamArray types() As Type) As SyntaxNode
         Dim currentNode As SyntaxNode = node
         Do
             Dim parent As SyntaxNode = currentNode.Parent
@@ -59,12 +59,12 @@ Public Module AnalyzerExtensions
     End Function
 
     <Extension>
-    Public Function FirstAncestorOrSelfOfType(Of T As SyntaxNode)(ByVal node As SyntaxNode) As T
+    Public Function FirstAncestorOrSelfOfType(Of T As SyntaxNode)(node As SyntaxNode) As T
         Return CType(node.FirstAncestorOrSelfOfType(GetType(T)), T)
     End Function
 
     <Extension>
-    Public Function FirstAncestorOrSelfOfType(ByVal node As SyntaxNode, ParamArray ByVal types() As Type) As SyntaxNode
+    Public Function FirstAncestorOrSelfOfType(node As SyntaxNode, ParamArray types() As Type) As SyntaxNode
         Dim currentNode As SyntaxNode = node
         Do
             If currentNode Is Nothing Then
@@ -91,7 +91,7 @@ Public Module AnalyzerExtensions
     End Function
 
     <Extension>
-    Public Function IsAnyKind(ByVal displayPart As SymbolDisplayPart, ParamArray ByVal kinds() As SymbolDisplayPartKind) As Boolean
+    Public Function IsAnyKind(displayPart As SymbolDisplayPart, ParamArray kinds() As SymbolDisplayPartKind) As Boolean
         For Each Kind As SymbolDisplayPartKind In kinds
             If displayPart.Kind = Kind Then
                 Return True

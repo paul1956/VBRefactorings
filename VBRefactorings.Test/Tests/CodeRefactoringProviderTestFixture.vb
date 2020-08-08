@@ -15,7 +15,7 @@ Namespace Roslyn.UnitTestFramework
         Inherits CodeActionProviderTestFixture
 
         Private Function GetRefactoring(document As Document, span As TextSpan) As IEnumerable(Of CodeAction)
-            Dim provider As CodeRefactoringProvider = CreateCodeRefactoringProvider()
+            Dim provider As CodeRefactoringProvider = Me.CreateCodeRefactoringProvider()
             Dim actions As New List(Of CodeAction)()
             Dim context As New CodeRefactoringContext(document, span, Sub(a) actions.Add(a), CancellationToken.None)
             provider.ComputeRefactoringsAsync(context).Wait()
@@ -35,8 +35,8 @@ Namespace Roslyn.UnitTestFramework
             Dim span As TextSpan = Nothing
             MarkupTestFile.GetSpan(markup, code, span)
 
-            Dim document As Document = CreateDocument(code)
-            Dim actions As IEnumerable(Of CodeAction) = GetRefactoring(document, span)
+            Dim document As Document = Me.CreateDocument(code)
+            Dim actions As IEnumerable(Of CodeAction) = Me.GetRefactoring(document, span)
 
             Assert.True(actions Is Nothing OrElse Not actions.Any)
         End Sub
@@ -63,8 +63,8 @@ Namespace Roslyn.UnitTestFramework
             Dim span As TextSpan = Nothing
             MarkupTestFile.GetSpan(markup, code, span)
 
-            Dim document As Document = CreateDocument(code)
-            Dim actions As IEnumerable(Of CodeAction) = GetRefactoring(document, span)
+            Dim document As Document = Me.CreateDocument(code)
+            Dim actions As IEnumerable(Of CodeAction) = Me.GetRefactoring(document, span)
 
             Assert.NotNull(actions)
 
@@ -72,7 +72,7 @@ Namespace Roslyn.UnitTestFramework
             Assert.NotNull(action)
 
             Dim edit As ApplyChangesOperation = action.GetOperationsAsync(CancellationToken.None).Result.OfType(Of ApplyChangesOperation)().First()
-            VerifyDocument(expected, compareTokens, edit.ChangedSolution.GetDocument(document.Id))
+            Me.VerifyDocument(expected, compareTokens, edit.ChangedSolution.GetDocument(document.Id))
         End Sub
 
         Protected MustOverride Function CreateCodeRefactoringProvider() As CodeRefactoringProvider

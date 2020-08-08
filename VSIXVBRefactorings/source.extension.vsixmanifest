@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="ddc4879b-cc89-4298-a5aa-f4e4989b538b" Version="3.2.2" Language="en-US" Publisher="Paul M Cohen" />
+        <DisplayName>Visual Basic Refactoring 2020</DisplayName>
+        <Description xml:space="preserve">A collection analyzers, refactorings and code fixes for Visual Basic, powered by Roslyn</Description>
+        <MoreInfo>https://github.com/paul1956/VBRefactorings</MoreInfo>
+        <License>Resources\license.txt</License>
+        <Icon>Resources\VBCodeRefactoring-logo90.png</Icon>
+        <PreviewImage>Resources\refactoringessentials-preview.png</PreviewImage>
+        <Tags>Roslyn;Refactoring;Analyzer;CodeAnalysis;VB;Visual Basic;Productivity;Diagnostic</Tags>
+        <Preview>true</Preview>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Community" />
+        <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Pro" />
+        <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Enterprise" />
+    </Installation>
+    <Dependencies>
+    </Dependencies>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="VBRefactorings" Path="|VBRefactorings|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="VBRefactorings" Path="|VBRefactorings|" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.Roslyn.LanguageServices" Version="[16.8.30404.54,17.0)" DisplayName="C# and Visual Basic" />
+    </Prerequisites>
+</PackageManifest>

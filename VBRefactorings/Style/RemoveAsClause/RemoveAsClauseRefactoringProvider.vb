@@ -5,6 +5,7 @@
 Imports System.Composition
 Imports System.Threading
 Imports Microsoft.CodeAnalysis
+Imports Microsoft.CodeAnalysis.CodeActions
 Imports Microsoft.CodeAnalysis.CodeRefactorings
 Imports Microsoft.CodeAnalysis.Text
 Imports Microsoft.CodeAnalysis.VisualBasic
@@ -15,6 +16,8 @@ Namespace Style
     <ExportCodeRefactoringProvider(LanguageNames.VisualBasic, Name:=NameOf(RemoveAsClauseRefactoringProvider)), [Shared]>
     Public Class RemoveAsClauseRefactoringProvider
         Inherits CodeRefactoringProvider
+
+        Private Const Title As String = "Remove As Clause"
 
         Public NotOverridable Overrides Async Function ComputeRefactoringsAsync(context As CodeRefactoringContext) As Task
             Dim span As TextSpan = context.Span
@@ -50,7 +53,7 @@ Namespace Style
             If VariableDeclarator.Initializer.Value.Kind = SyntaxKind.CollectionInitializer Then
                 Return
             End If
-            context.RegisterRefactoring(CodeAction.Create($"Remove As Clause", Function(c As CancellationToken) Me.MakeImplicit(document, VariableDeclarator, c)))
+            context.RegisterRefactoring(CodeAction.Create(Title, Function(c As CancellationToken) Me.MakeImplicit(document, VariableDeclarator, c)))
         End Function
 
         Private Async Function MakeImplicit(document As Document, VariableDeclarator As VariableDeclaratorSyntax, cancellationToken As CancellationToken) As Task(Of Document)

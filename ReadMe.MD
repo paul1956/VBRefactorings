@@ -2,7 +2,7 @@
 This solution includes Visual Basic Code Fixes I am working on
 
 Areas included
- **Bold** is enabled
+ **Bold** is enabled in this version
 1. Design
    1. Static constructor Exception
 2. General
@@ -21,7 +21,6 @@ Areas included
    1. **Add As Clause** 
    2. Remove As Clause
    3. Convert String to XML Literal
-   4. **Remove ByVal**
    5. Convert If to Case Statement
 7. Usage
    1. Argument Exception

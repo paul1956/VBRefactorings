@@ -2,14 +2,6 @@
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
 
-Option Compare Text
-Option Explicit On
-Option Infer Off
-Option Strict On
-' Licensed to the .NET Foundation under one or more agreements.
-' The .NET Foundation licenses this file to you under the MIT license.
-' See the LICENSE file in the project root for more information.
-
 Imports Microsoft.CodeAnalysis
 
 Friend Module FindTokenHelper
@@ -17,7 +9,7 @@ Friend Module FindTokenHelper
     ''' <summary>
     ''' Look inside a trivia list for a skipped token that contains the given position.
     ''' </summary>
-    Public Function FindSkippedTokenBackward(ByVal skippedTokenList As IEnumerable(Of SyntaxToken), ByVal position As Integer) As SyntaxToken
+    Public Function FindSkippedTokenBackward(skippedTokenList As IEnumerable(Of SyntaxToken), position As Integer) As SyntaxToken
         ' the given skipped token list is already in order
         Dim skippedTokenContainingPosition As SyntaxToken = skippedTokenList.LastOrDefault(Function(skipped As SyntaxToken) skipped.Span.Length > 0 AndAlso skipped.SpanStart <= position)
         If skippedTokenContainingPosition <> Nothing Then
@@ -30,7 +22,7 @@ Friend Module FindTokenHelper
     ''' <summary>
     ''' Look inside a trivia list for a skipped token that contains the given position.
     ''' </summary>
-    Public Function FindSkippedTokenForward(ByVal skippedTokenList As IEnumerable(Of SyntaxToken), ByVal position As Integer) As SyntaxToken
+    Public Function FindSkippedTokenForward(skippedTokenList As IEnumerable(Of SyntaxToken), position As Integer) As SyntaxToken
         ' the given token list is already in order
         Dim skippedTokenContainingPosition As SyntaxToken = skippedTokenList.FirstOrDefault(Function(skipped As SyntaxToken) skipped.Span.Length > 0 AndAlso position <= skipped.Span.End)
         If skippedTokenContainingPosition = Nothing Then
@@ -43,7 +35,7 @@ Friend Module FindTokenHelper
     ''' <summary>
     ''' If the position is inside of token, return that token; otherwise, return the token to the left.
     ''' </summary>
-    Public Function FindTokenOnLeftOfPosition(Of TRoot As SyntaxNode)(ByVal root As SyntaxNode, ByVal position As Integer, ByVal skippedTokenFinder As Func(Of SyntaxTriviaList, Integer, SyntaxToken), Optional ByVal includeSkipped As Boolean = False, Optional ByVal includeDirectives As Boolean = False, Optional ByVal includeDocumentationComments As Boolean = False) As SyntaxToken
+    Public Function FindTokenOnLeftOfPosition(Of TRoot As SyntaxNode)(root As SyntaxNode, position As Integer, skippedTokenFinder As Func(Of SyntaxTriviaList, Integer, SyntaxToken), Optional includeSkipped As Boolean = False, Optional includeDirectives As Boolean = False, Optional includeDocumentationComments As Boolean = False) As SyntaxToken
         Dim findSkippedToken As Func(Of SyntaxTriviaList, Integer, SyntaxToken) = If(skippedTokenFinder, Function(l As SyntaxTriviaList, p As Integer) Nothing)
 
         Dim token As SyntaxToken = GetInitialToken(Of TRoot)(root, position, includeSkipped, includeDirectives, includeDocumentationComments)
@@ -68,7 +60,7 @@ Friend Module FindTokenHelper
     ''' <summary>
     ''' If the position is inside of token, return that token; otherwise, return the token to the right.
     ''' </summary>
-    Public Function FindTokenOnRightOfPosition(Of TRoot As SyntaxNode)(ByVal root As SyntaxNode, ByVal position As Integer, ByVal skippedTokenFinder As Func(Of SyntaxTriviaList, Integer, SyntaxToken), Optional ByVal includeSkipped As Boolean = False, Optional ByVal includeDirectives As Boolean = False, Optional ByVal includeDocumentationComments As Boolean = False) As SyntaxToken
+    Public Function FindTokenOnRightOfPosition(Of TRoot As SyntaxNode)(root As SyntaxNode, position As Integer, skippedTokenFinder As Func(Of SyntaxTriviaList, Integer, SyntaxToken), Optional includeSkipped As Boolean = False, Optional includeDirectives As Boolean = False, Optional includeDocumentationComments As Boolean = False) As SyntaxToken
         Dim findSkippedToken As Func(Of SyntaxTriviaList, Integer, SyntaxToken) = If(skippedTokenFinder, Function(l As SyntaxTriviaList, p As Integer) Nothing)
 
         Dim token As SyntaxToken = GetInitialToken(Of TRoot)(root, position, includeSkipped, includeDirectives, includeDocumentationComments)
@@ -90,7 +82,7 @@ Friend Module FindTokenHelper
         Return token
     End Function
 
-    Private Function GetInitialToken(Of TRoot As SyntaxNode)(ByVal root As SyntaxNode, ByVal position As Integer, Optional ByVal includeSkipped As Boolean = False, Optional ByVal includeDirectives As Boolean = False, Optional ByVal includeDocumentationComments As Boolean = False) As SyntaxToken
+    Private Function GetInitialToken(Of TRoot As SyntaxNode)(root As SyntaxNode, position As Integer, Optional includeSkipped As Boolean = False, Optional includeDirectives As Boolean = False, Optional includeDocumentationComments As Boolean = False) As SyntaxToken
         Dim token As SyntaxToken = If(position < root.FullSpan.End OrElse Not (TypeOf root Is TRoot), root.FindToken(position, includeSkipped OrElse includeDirectives OrElse includeDocumentationComments), root.GetLastToken(includeZeroWidth:=True, includeSkipped:=True, includeDirectives:=True, includeDocumentationComments:=True).GetPreviousToken(includeZeroWidth:=False, includeSkipped:=includeSkipped, includeDirectives:=includeDirectives, includeDocumentationComments:=includeDocumentationComments))
         Return token
     End Function

@@ -20,21 +20,21 @@ Namespace Style
         Friend Const MessageFormat As String = "Option Strict On requires all variable declarations to have an 'As' clause."
         Friend Const Title As String = "Option Strict On requires all variable declarations to have an 'As' clause."
 
-        Friend Shared Rule As New DiagnosticDescriptor(
-                        AddAsClauseDiagnosticId,
-                        Title,
-                        MessageFormat,
-                        Category,
-                        DiagnosticSeverity.Error,
-                        isEnabledByDefault:=True,
-                        Description,
-                        helpLinkUri:=Nothing,
-                        Array.Empty(Of String)
-                        )
+        Private Shared ReadOnly s_rule As New DiagnosticDescriptor(
+                                            AddAsClauseDiagnosticId,
+                                            Title,
+                                            MessageFormat,
+                                            Category,
+                                            DiagnosticSeverity.Error,
+                                            isEnabledByDefault:=True,
+                                            Description,
+                                            helpLinkUri:=Nothing,
+                                            Array.Empty(Of String)
+                                            )
 
         Public Overrides ReadOnly Property SupportedDiagnostics As ImmutableArray(Of DiagnosticDescriptor)
             Get
-                Return ImmutableArray.Create(Rule)
+                Return ImmutableArray.Create(s_rule)
             End Get
         End Property
 
@@ -57,7 +57,7 @@ Namespace Style
                         Stop
                 End Select
 
-                Dim diag As Diagnostic = Diagnostic.Create(Rule, ControlVariable.GetLocation(), MessageFormat)
+                Dim diag As Diagnostic = Diagnostic.Create(s_rule, ControlVariable.GetLocation(), MessageFormat)
                 context.ReportDiagnostic(diag)
             Catch ex As Exception When ex.HResult <> (New OperationCanceledException).HResult
                 Stop
@@ -89,7 +89,7 @@ Namespace Style
                     Exit Sub
                 End If
 
-                Dim diag As Diagnostic = Diagnostic.Create(Rule, ControlVariable.GetLocation(), MessageFormat)
+                Dim diag As Diagnostic = Diagnostic.Create(s_rule, ControlVariable.GetLocation(), MessageFormat)
                 context.ReportDiagnostic(diag)
             Catch ex As Exception When ex.HResult <> (New OperationCanceledException).HResult
                 Stop
@@ -113,7 +113,7 @@ Namespace Style
                         End If
                         For Each param As ParameterSyntax In _LambdaHeaderSyntax.ParameterList.Parameters
                             If param.AsClause Is Nothing Then
-                                diag = Diagnostic.Create(Rule, param.GetLocation(), MessageFormat)
+                                diag = Diagnostic.Create(s_rule, param.GetLocation(), MessageFormat)
                                 context.ReportDiagnostic(diag)
                             End If
                         Next
@@ -188,7 +188,7 @@ Namespace Style
                             Exit Sub
                         End If
 
-                        diag = Diagnostic.Create(Rule, VariableDeclaration.GetLocation(), MessageFormat)
+                        diag = Diagnostic.Create(s_rule, VariableDeclaration.GetLocation(), MessageFormat)
                     Case Else
                         Stop
                 End Select

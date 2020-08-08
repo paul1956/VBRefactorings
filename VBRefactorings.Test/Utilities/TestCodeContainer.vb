@@ -47,7 +47,7 @@ Class TestCodeContainer
     End Sub
 
     Public Sub GetStatementsBetweenMarkers(ByRef firstStatement As StatementSyntax, ByRef lastStatement As StatementSyntax)
-        Dim span As TextSpan = GetSpanBetweenMarkers()
+        Dim span As TextSpan = Me.GetSpanBetweenMarkers()
         Dim statementsInside As IEnumerable(Of StatementSyntax) = SyntaxTree.GetRoot().DescendantNodes(span).OfType(Of StatementSyntax).Where(Function(s) span.Contains(s.Span))
         Dim first As StatementSyntax = statementsInside.First()
         firstStatement = first

@@ -9,7 +9,7 @@ Partial Friend MustInherit Class Matcher(Of T)
         Private ReadOnly _description As String
         Private ReadOnly _predicate As Func(Of T, Boolean)
 
-        Public Sub New(ByVal predicate As Func(Of T, Boolean), ByVal description As String)
+        Public Sub New(predicate As Func(Of T, Boolean), description As String)
             _predicate = predicate
             _description = description
         End Sub
@@ -18,7 +18,7 @@ Partial Friend MustInherit Class Matcher(Of T)
             Return _description
         End Function
 
-        Public Overrides Function TryMatch(ByVal sequence As IList(Of T), ByRef index As Integer) As Boolean
+        Public Overrides Function TryMatch(sequence As IList(Of T), ByRef index As Integer) As Boolean
             If index < sequence.Count AndAlso _predicate(sequence(index)) Then
                 index += 1
                 Return True

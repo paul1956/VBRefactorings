@@ -1,4 +1,8 @@
-﻿Imports Microsoft.VisualBasic
+﻿' Licensed to the .NET Foundation under one or more agreements.
+' The .NET Foundation licenses this file to you under the MIT license.
+' See the LICENSE file in the project root for more information.
+
+Imports Microsoft.VisualBasic
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
@@ -7,11 +11,11 @@ Imports System.Runtime.InteropServices
 ' General Information about an assembly is controlled through the following 
 ' set of attributes. Change these attribute values to modify the information
 ' associated with an assembly.
-<Assembly: AssemblyTitle("AddAsClause.VSIX")>
+<Assembly: AssemblyTitle("VSIXProject1")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyConfiguration("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("AddAsClause.VSIX")>
+<Assembly: AssemblyProduct("VSIXProject1")>
 <Assembly: AssemblyCopyright("")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>

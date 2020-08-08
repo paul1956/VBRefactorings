@@ -15,7 +15,7 @@ Public NotInheritable Class DocumentChangeAction
     Private _severity As DiagnosticSeverity
     Private _textSpan As TextSpan
 
-    Public Sub New(ByVal _TextSpan As TextSpan, ByVal _Severity As DiagnosticSeverity, ByVal title As String, ByVal createChangedDocument As Func(Of CancellationToken, Task(Of Document)))
+    Public Sub New(_TextSpan As TextSpan, _Severity As DiagnosticSeverity, title As String, createChangedDocument As Func(Of CancellationToken, Task(Of Document)))
         Me._severity = _Severity
         Me._textSpan = _TextSpan
         _title = title
@@ -26,7 +26,7 @@ Public NotInheritable Class DocumentChangeAction
         Get
             Return _severity
         End Get
-        Private Set(ByVal value As DiagnosticSeverity)
+        Private Set(value As DiagnosticSeverity)
             _severity = value
         End Set
     End Property
@@ -35,7 +35,7 @@ Public NotInheritable Class DocumentChangeAction
         Get
             Return _textSpan
         End Get
-        Private Set(ByVal value As TextSpan)
+        Private Set(value As TextSpan)
             _textSpan = value
         End Set
     End Property
@@ -46,7 +46,7 @@ Public NotInheritable Class DocumentChangeAction
         End Get
     End Property
 
-    Protected Overrides Function GetChangedDocumentAsync(ByVal CancelToken As CancellationToken) As Task(Of Document)
+    Protected Overrides Function GetChangedDocumentAsync(CancelToken As CancellationToken) As Task(Of Document)
         If _createChangedDocument Is Nothing Then
             Return MyBase.GetChangedDocumentAsync(CancelToken)
         End If

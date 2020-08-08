@@ -26,7 +26,7 @@ Public Module ISymbolExtensions
     '// allocations in the function itself (including not making any iterators).  This does mean
     '// that certain helper functions that we'd like to call are inlined in this method to
     '// prevent the overhead of returning collections or enumerators.
-    Private Function IsSymbolAccessibleCore(ByVal symbol As ISymbol, ByVal within As ISymbol, ByVal throughTypeOpt As ITypeSymbol, ByRef failedThroughTypeCheck As Boolean) As Boolean ' must be assembly or named type symbol
+    Private Function IsSymbolAccessibleCore(symbol As ISymbol, within As ISymbol, throughTypeOpt As ITypeSymbol, ByRef failedThroughTypeCheck As Boolean) As Boolean ' must be assembly or named type symbol
         '			Contract.ThrowIfNull(symbol);
         '			Contract.ThrowIfNull(within);
         '			Contract.Requires(within is INamedTypeSymbol || within is IAssemblySymbol);
@@ -80,12 +80,12 @@ Public Module ISymbolExtensions
     End Function
 
     <Extension>
-    Public Function ActionType(ByVal compilation As Compilation) As INamedTypeSymbol
+    Public Function ActionType(compilation As Compilation) As INamedTypeSymbol
         Return compilation.GetTypeByMetadataName(GetType(Action).FullName)
     End Function
 
     <Extension>
-    Public Function ConvertToType(ByVal symbol As ISymbol, ByVal compilation As Compilation, Optional ByVal extensionUsedAsInstance As Boolean = False) As ITypeSymbol
+    Public Function ConvertToType(symbol As ISymbol, compilation As Compilation, Optional extensionUsedAsInstance As Boolean = False) As ITypeSymbol
         Dim _type As ITypeSymbol = TryCast(symbol, ITypeSymbol)
         If _type IsNot Nothing Then
             Return _type
@@ -144,7 +144,7 @@ Public Module ISymbolExtensions
     End Function
 
     <Extension>
-    Public Function GetResultantVisibility(ByVal symbol As ISymbol) As SymbolVisibility
+    Public Function GetResultantVisibility(symbol As ISymbol) As SymbolVisibility
         ' Start by assuming it's visible.
         Dim visibility As SymbolVisibility = SymbolVisibility.Public
 
@@ -185,7 +185,7 @@ Public Module ISymbolExtensions
     End Function
 
     <Extension>
-    Public Function GetTypeArguments(ByVal symbol As ISymbol) As ImmutableArray(Of ITypeSymbol)
+    Public Function GetTypeArguments(symbol As ISymbol) As ImmutableArray(Of ITypeSymbol)
         'ORIGINAL LINE: return symbol.TypeSwitch( (IMethodSymbol m) => m.TypeArguments, (INamedTypeSymbol nt) => nt.TypeArguments, _ => ImmutableArray.Create<ITypeSymbol>());
         Return symbol.TypeSwitch(
                 Function(m As IMethodSymbol) m.TypeArguments,
@@ -194,38 +194,38 @@ Public Module ISymbolExtensions
     End Function
 
     <Extension>
-    Public Function GetValidAnonymousTypeProperties(ByVal symbol As ISymbol) As IEnumerable(Of IPropertySymbol)
+    Public Function GetValidAnonymousTypeProperties(symbol As ISymbol) As IEnumerable(Of IPropertySymbol)
         ' Contract.ThrowIfFalse(symbol.IsNormalAnonymousType());
         Return DirectCast(symbol, INamedTypeSymbol).GetMembers().OfType(Of IPropertySymbol)().Where(Function(p As IPropertySymbol) p.CanBeReferencedByName)
     End Function
 
     <Extension>
-    Public Function IsArrayType(ByVal symbol As ISymbol) As Boolean
+    Public Function IsArrayType(symbol As ISymbol) As Boolean
         Return CBool(symbol?.Kind = SymbolKind.ArrayType)
     End Function
 
     <Extension>
-    Public Function IsAttribute(ByVal symbol As ISymbol) As Boolean
+    Public Function IsAttribute(symbol As ISymbol) As Boolean
         Return CBool(TryCast(symbol, ITypeSymbol)?.IsAttribute() = True)
     End Function
 
     <Extension>
-    Public Function IsInterfaceType(ByVal symbol As ISymbol) As Boolean
+    Public Function IsInterfaceType(symbol As ISymbol) As Boolean
         Return CBool(TryCast(symbol, ITypeSymbol)?.IsInterfaceType() = True)
     End Function
 
     <Extension>
-    Public Function IsKind(ByVal symbol As ISymbol, ByVal kind As SymbolKind) As Boolean
+    Public Function IsKind(symbol As ISymbol, kind As SymbolKind) As Boolean
         Return symbol.MatchesKind(kind)
     End Function
 
     <Extension>
-    Public Function IsModuleType(ByVal symbol As ISymbol) As Boolean
+    Public Function IsModuleType(symbol As ISymbol) As Boolean
         Return CBool(TryCast(symbol, ITypeSymbol)?.IsModuleType() = True)
     End Function
 
     <Extension>
-    Public Function MatchesKind(ByVal symbol As ISymbol, ByVal kind As SymbolKind) As Boolean
+    Public Function MatchesKind(symbol As ISymbol, kind As SymbolKind) As Boolean
         Return CBool(symbol?.Kind = kind)
     End Function
 

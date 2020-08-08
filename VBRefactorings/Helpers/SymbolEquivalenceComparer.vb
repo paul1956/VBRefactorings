@@ -1,7 +1,6 @@
 ﻿' Licensed to the .NET Foundation under one or more agreements.
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
-'
 
 Imports System.Collections.Immutable
 Imports Microsoft.CodeAnalysis
@@ -49,7 +48,7 @@ Namespace Utilities
         Public ReadOnly Property ParameterEquivalenceComparer() As ParameterSymbolEqualityComparer
         Public ReadOnly Property SignatureTypeEquivalenceComparer() As SignatureTypeSymbolEquivalenceComparer
 
-        Friend Sub New(ByVal assemblyComparerOpt As IEqualityComparer(Of IAssemblySymbol), ByVal distinguishRefFromOut As Boolean)
+        Friend Sub New(assemblyComparerOpt As IEqualityComparer(Of IAssemblySymbol), distinguishRefFromOut As Boolean)
             _assemblyComparerOpt = assemblyComparerOpt
 
             ParameterEquivalenceComparer = New ParameterSymbolEqualityComparer(Me, distinguishRefFromOut)
@@ -79,17 +78,17 @@ Namespace Utilities
         ' will cause us to check if their parameters are the same.  And then we'll be right back
         ' here.  So, instead, when asking if parameters are equal, we pass an appropriate flag so
         ' that method type parameters are just compared by index and nothing else.
-        Private Function GetEquivalenceVisitor(Optional ByVal compareMethodTypeParametersByIndex As Boolean = False, Optional ByVal objectAndDynamicCompareEqually As Boolean = False) As EquivalenceVisitor
+        Private Function GetEquivalenceVisitor(Optional compareMethodTypeParametersByIndex As Boolean = False, Optional objectAndDynamicCompareEqually As Boolean = False) As EquivalenceVisitor
             Dim visitorIndex As Integer = GetVisitorIndex(compareMethodTypeParametersByIndex, objectAndDynamicCompareEqually)
             Return _equivalenceVisitors(visitorIndex)
         End Function
 
-        Private Function GetGetHashCodeVisitor(ByVal compareMethodTypeParametersByIndex As Boolean, ByVal objectAndDynamicCompareEqually As Boolean) As GetHashCodeVisitor
+        Private Function GetGetHashCodeVisitor(compareMethodTypeParametersByIndex As Boolean, objectAndDynamicCompareEqually As Boolean) As GetHashCodeVisitor
             Dim visitorIndex As Integer = GetVisitorIndex(compareMethodTypeParametersByIndex, objectAndDynamicCompareEqually)
             Return _getHashCodeVisitors(visitorIndex)
         End Function
 
-        Private Shared Function GetVisitorIndex(ByVal compareMethodTypeParametersByIndex As Boolean, ByVal objectAndDynamicCompareEqually As Boolean) As Integer
+        Private Shared Function GetVisitorIndex(compareMethodTypeParametersByIndex As Boolean, objectAndDynamicCompareEqually As Boolean) As Integer
             If compareMethodTypeParametersByIndex Then
                 If objectAndDynamicCompareEqually Then
                     Return 0
@@ -105,14 +104,14 @@ Namespace Utilities
             End If
         End Function
 
-        Public Function ReturnTypeEquals(ByVal x As IMethodSymbol, ByVal y As IMethodSymbol, Optional ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol) = Nothing) As Boolean
+        Public Function ReturnTypeEquals(x As IMethodSymbol, y As IMethodSymbol, Optional equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol) = Nothing) As Boolean
             Return Me.GetEquivalenceVisitor().ReturnTypesAreEquivalent(x, y, equivalentTypesWithDifferingAssemblies)
         End Function
 
         ''' <summary>
         ''' Compares given symbols <paramref name="x"/> and <paramref name="y"/> for equivalence.
         ''' </summary>
-        Public Shadows Function Equals(ByVal x As ISymbol, ByVal y As ISymbol) As Boolean Implements IEqualityComparer(Of ISymbol).Equals
+        Public Shadows Function Equals(x As ISymbol, y As ISymbol) As Boolean Implements IEqualityComparer(Of ISymbol).Equals
             Return Me.EqualsCore(x, y, Nothing)
         End Function
 
@@ -122,20 +121,20 @@ Namespace Utilities
         ''' These equivalent named type key-value pairs represent possibly equivalent forwarded types, but this API doesn't perform any type forwarding equivalence checks.
         ''' </summary>
         ''' <remarks>This API is only supported for <see cref="SymbolEquivalenceComparer.IgnoreAssembliesInstance"/>.</remarks>
-        Public Shadows Function Equals(ByVal x As ISymbol, ByVal y As ISymbol, ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol)) As Boolean
+        Public Shadows Function Equals(x As ISymbol, y As ISymbol, equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol)) As Boolean
             Debug.Assert(_assemblyComparerOpt Is Nothing)
             Return Me.EqualsCore(x, y, equivalentTypesWithDifferingAssemblies)
         End Function
 
-        Private Function EqualsCore(ByVal x As ISymbol, ByVal y As ISymbol, ByVal equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol)) As Boolean
+        Private Function EqualsCore(x As ISymbol, y As ISymbol, equivalentTypesWithDifferingAssemblies As Dictionary(Of INamedTypeSymbol, INamedTypeSymbol)) As Boolean
             Return Me.GetEquivalenceVisitor().AreEquivalent(x, y, equivalentTypesWithDifferingAssemblies)
         End Function
 
-        Public Shadows Function GetHashCode(ByVal x As ISymbol) As Integer Implements IEqualityComparer(Of ISymbol).GetHashCode
+        Public Shadows Function GetHashCode(x As ISymbol) As Integer Implements IEqualityComparer(Of ISymbol).GetHashCode
             Return Me.GetGetHashCodeVisitor(compareMethodTypeParametersByIndex:=False, objectAndDynamicCompareEqually:=False).GetHashCode(x, currentHash:=0)
         End Function
 
-        Private Shared Function UnwrapAlias(ByVal symbol As ISymbol) As ISymbol
+        Private Shared Function UnwrapAlias(symbol As ISymbol) As ISymbol
             If symbol.Kind = SymbolKind.Alias Then
                 Return DirectCast(symbol, IAliasSymbol).Target
             Else
@@ -153,19 +152,19 @@ Namespace Utilities
             Return CType(k, SymbolKind)
         End Function
 
-        Private Shared Function IsConstructedFromSelf(ByVal symbol As INamedTypeSymbol) As Boolean
+        Private Shared Function IsConstructedFromSelf(symbol As INamedTypeSymbol) As Boolean
             Return symbol.Equals(symbol.ConstructedFrom)
         End Function
 
-        Private Shared Function IsConstructedFromSelf(ByVal symbol As IMethodSymbol) As Boolean
+        Private Shared Function IsConstructedFromSelf(symbol As IMethodSymbol) As Boolean
             Return symbol.Equals(symbol.ConstructedFrom)
         End Function
 
-        Private Shared Function IsObjectType(ByVal symbol As ISymbol) As Boolean
+        Private Shared Function IsObjectType(symbol As ISymbol) As Boolean
             Return symbol.Kind = SymbolKind.NamedType AndAlso DirectCast(symbol, ITypeSymbol).SpecialType = SpecialType.System_Object
         End Function
 
-        Private Shared Function CheckContainingType(ByVal x As IMethodSymbol) As Boolean
+        Private Shared Function CheckContainingType(x As IMethodSymbol) As Boolean
             If x.MethodKind = MethodKind.DelegateInvoke AndAlso x.ContainingType IsNot Nothing AndAlso x.ContainingType.IsAnonymousType Then
                 Return False
             End If
@@ -173,7 +172,7 @@ Namespace Utilities
             Return True
         End Function
 
-        Private Shared Iterator Function Unwrap(ByVal namedType As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
+        Private Shared Iterator Function Unwrap(namedType As INamedTypeSymbol) As IEnumerable(Of INamedTypeSymbol)
             Yield namedType
 
             Dim errorType As IErrorTypeSymbol = TryCast(namedType, IErrorTypeSymbol)
@@ -185,15 +184,15 @@ Namespace Utilities
             End If
         End Function
 
-        Private Shared Function IsPartialMethodDefinitionPart(ByVal symbol As IMethodSymbol) As Boolean
+        Private Shared Function IsPartialMethodDefinitionPart(symbol As IMethodSymbol) As Boolean
             Return symbol.PartialImplementationPart IsNot Nothing
         End Function
 
-        Private Shared Function IsPartialMethodImplementationPart(ByVal symbol As IMethodSymbol) As Boolean
+        Private Shared Function IsPartialMethodImplementationPart(symbol As IMethodSymbol) As Boolean
             Return symbol.PartialDefinitionPart IsNot Nothing
         End Function
 
-        Private Shared Function GetTypeKind(ByVal x As INamedTypeSymbol) As TypeKind
+        Private Shared Function GetTypeKind(x As INamedTypeSymbol) As TypeKind
             ' Treat static classes as modules.
             Dim k As TypeKind = x.TypeKind
             Return If(k = TypeKind.Module, TypeKind.Class, k)

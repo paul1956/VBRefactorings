@@ -9,7 +9,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Public Module KindExtensions
 
     <Extension()>
-    Public Function MatchesKind(ByVal Expression As ExpressionSyntax, ParamArray KindList() As SyntaxKind) As Boolean
+    Public Function MatchesKind(Expression As ExpressionSyntax, ParamArray KindList() As SyntaxKind) As Boolean
         For Each kind As SyntaxKind In KindList
             If Expression.Kind = kind Then
                 Return True

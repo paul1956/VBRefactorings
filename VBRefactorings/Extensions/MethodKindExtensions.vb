@@ -9,7 +9,7 @@ Imports Microsoft.CodeAnalysis
 Public Module MethodKindExtensions
 
     <Extension>
-    Public Function IsPropertyAccessor(ByVal kind As MethodKind) As Boolean
+    Public Function IsPropertyAccessor(kind As MethodKind) As Boolean
         Return kind = MethodKind.PropertyGet OrElse kind = MethodKind.PropertySet
     End Function
 

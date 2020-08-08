@@ -9,7 +9,7 @@ Imports Microsoft.CodeAnalysis
 Public Module LocationExtensions
 
     <Extension>
-    Public Function FindNode(ByVal location As Location, ByVal getInnermostNodeForTie As Boolean, ByVal CancelToken As CancellationToken) As SyntaxNode
+    Public Function FindNode(location As Location, getInnermostNodeForTie As Boolean, CancelToken As CancellationToken) As SyntaxNode
         Return location.SourceTree.GetRoot(CancelToken).FindNode(location.SourceSpan, getInnermostNodeForTie:=getInnermostNodeForTie)
     End Function
 
