@@ -63,7 +63,7 @@ Public Module StringExtensions
 
         ' now this will calculate indentation regardless of actual content on the buffer except TAB
         For i As Integer = 0 To endPosition - 1
-            column += If(textSnippet(i) = vbTab, tabSize - column Mod tabSize, 1)
+            column += If(textSnippet(i) = vbTab, tabSize - (column Mod tabSize), 1)
         Next
 
         Return column - initialColumn
@@ -78,6 +78,21 @@ Public Module StringExtensions
     Public Sub DropLastElement(Of T)(ByRef a() As T)
         a.RemoveAt(a.GetUpperBound(0))
     End Sub
+
+    <Extension>
+    Public Function EndsWithAny(text As String, comparisonType As StringComparison, ParamArray values() As String) As Boolean
+        For Each value As String In values
+            If text.EndsWith(value, comparisonType) Then
+                Return True
+            End If
+        Next value
+        Return False
+    End Function
+
+    <Extension>
+    Public Function EndsWithAny(text As String, ParamArray values() As String) As Boolean
+        Return text.EndsWithAny(StringComparison.CurrentCulture, values)
+    End Function
 
     <Extension>
     Public Function Join(source As IEnumerable(Of String), separator As String) As String
@@ -154,6 +169,17 @@ Public Module StringExtensions
             End Select
         Next
         TitleCaseSplit = out
+    End Function
+
+    <Extension>
+    Public Function ToLowerCaseFirstLetter(text As String) As String
+        If String.IsNullOrWhiteSpace(text) Then
+            Return text
+        End If
+        If text.Length = 1 Then
+            Return text.ToLower()
+        End If
+        Return Char.ToLowerInvariant(text.Chars(0)) & text.Substring(1)
     End Function
 
     ''' <summary>

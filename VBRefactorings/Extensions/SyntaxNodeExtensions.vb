@@ -9,6 +9,63 @@ Imports Microsoft.CodeAnalysis.VisualBasic
 Public Module SyntaxNodeExtensions
 
     <Extension>
+    Public Function FirstAncestorOfType(Of T As SyntaxNode)(node As SyntaxNode) As T
+        Dim currentNode As SyntaxNode = node
+        Do
+            Dim parent As SyntaxNode = currentNode.Parent
+            If parent Is Nothing Then
+                Exit Do
+            End If
+            Dim tParent As T = TryCast(parent, T)
+            If tParent IsNot Nothing Then
+                Return tParent
+            End If
+            currentNode = parent
+        Loop
+        Return Nothing
+    End Function
+
+    <Extension>
+    Public Function FirstAncestorOfType(node As SyntaxNode, ParamArray types() As Type) As SyntaxNode
+        Dim currentNode As SyntaxNode = node
+        Do
+            Dim parent As SyntaxNode = currentNode.Parent
+            If parent Is Nothing Then
+                Exit Do
+            End If
+            For Each Type As Type In types
+                If parent.GetType() Is Type Then
+                    Return parent
+                End If
+            Next Type
+            currentNode = parent
+        Loop
+        Return Nothing
+    End Function
+
+    <Extension>
+    Public Function FirstAncestorOrSelfOfType(Of T As SyntaxNode)(node As SyntaxNode) As T
+        Return CType(node.FirstAncestorOrSelfOfType(GetType(T)), T)
+    End Function
+
+    <Extension>
+    Public Function FirstAncestorOrSelfOfType(node As SyntaxNode, ParamArray types() As Type) As SyntaxNode
+        Dim currentNode As SyntaxNode = node
+        Do
+            If currentNode Is Nothing Then
+                Exit Do
+            End If
+            For Each Type As Type In types
+                If currentNode.GetType() Is Type Then
+                    Return currentNode
+                End If
+            Next Type
+            currentNode = currentNode.Parent
+        Loop
+        Return Nothing
+    End Function
+
+    <Extension>
     Public Function GetAncestorOrThis(Of TNode As SyntaxNode)(node As SyntaxNode) As TNode
         If node Is Nothing Then
             Return Nothing
@@ -30,7 +87,7 @@ Public Module SyntaxNodeExtensions
     End Function
 
     <Extension>
-    Public Function IsKind(token As SyntaxToken, kind1 As VisualBasic.SyntaxKind, kind2 As VisualBasic.SyntaxKind) As Boolean
+    Public Function IsKind(token As SyntaxToken, kind1 As SyntaxKind, kind2 As SyntaxKind) As Boolean
         Return Kind(token) = kind1 OrElse Kind(token) = kind2
     End Function
 

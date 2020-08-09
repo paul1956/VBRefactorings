@@ -7,7 +7,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports VB = Microsoft.CodeAnalysis.VisualBasic
-Imports VBFactory = Microsoft.CodeAnalysis.VisualBasic.SyntaxFactory
 
 Namespace Utilities
     Public Module SyntaxTokenExtensions
@@ -18,12 +17,12 @@ Namespace Utilities
         End Function
 
         <Extension>
-        Friend Function Contains(Tokens As IEnumerable(Of SyntaxToken), ParamArray Kind() As VB.SyntaxKind) As Boolean
+        Friend Function Contains(Tokens As IEnumerable(Of SyntaxToken), ParamArray Kind() As SyntaxKind) As Boolean
             Return Tokens.Contains(Function(m As SyntaxToken) m.IsKind(Kind))
         End Function
 
         <Extension>
-        Friend Function IndexOf(Tokens As IEnumerable(Of SyntaxToken), Kind As VB.SyntaxKind) As Integer
+        Friend Function IndexOf(Tokens As IEnumerable(Of SyntaxToken), Kind As SyntaxKind) As Integer
             For i As Integer = 0 To Tokens.Count - 1
                 If Tokens(i).IsKind(Kind) Then
                     Return i
@@ -48,8 +47,8 @@ Namespace Utilities
         End Function
 
         <Extension>
-        Public Function IsKind(token As SyntaxToken, ParamArray kinds() As VB.SyntaxKind) As Boolean
-            Return kinds.Contains(CType(token.RawKind, VB.SyntaxKind))
+        Public Function IsKind(token As SyntaxToken, ParamArray kinds() As SyntaxKind) As Boolean
+            Return kinds.Contains(CType(token.RawKind, SyntaxKind))
         End Function
 
         <Extension()>

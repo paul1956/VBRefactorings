@@ -4,7 +4,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Threading
-Imports Microsoft
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
@@ -26,7 +25,7 @@ Public Module ExpressionSyntaxExtensions
         If TypeOf name Is QualifiedNameSyntax Then
             Dim qualifiedName As QualifiedNameSyntax = DirectCast(name, QualifiedNameSyntax)
             Return ContainsOpenName(qualifiedName.Left) OrElse ContainsOpenName(qualifiedName.Right)
-        ElseIf TypeOf name Is CodeAnalysis.VisualBasic.Syntax.GenericNameSyntax Then
+        ElseIf TypeOf name Is GenericNameSyntax Then
             Return DirectCast(name, GenericNameSyntax).IsUnboundGenericName
         Else
             Return False
