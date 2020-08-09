@@ -4,7 +4,6 @@
 
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.CodeRefactorings
-Imports VBRefactorings.Style
 Imports VBRefactoringsTests.Roslyn.UnitTestFramework
 Imports Xunit
 
