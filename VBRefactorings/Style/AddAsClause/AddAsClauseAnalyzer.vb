@@ -16,15 +16,14 @@ Namespace Style
         Inherits DiagnosticAnalyzer
 
         Private Const Description As String = "Option Strict On requires all variable declarations to have an 'As' clause."
-        Friend Const Category As String = SupportedCategories.Style
-        Friend Const MessageFormat As String = "Option Strict On requires all variable declarations to have an 'As' clause."
-        Friend Const Title As String = "Option Strict On requires all variable declarations to have an 'As' clause."
+        Private Const MessageFormat As String = "Option Strict On requires all variable declarations to have an 'As' clause."
+        Private Const Title As String = "Option Strict On requires all variable declarations to have an 'As' clause."
 
         Private Shared ReadOnly s_rule As New DiagnosticDescriptor(
                                             AddAsClauseDiagnosticId,
                                             Title,
                                             MessageFormat,
-                                            Category,
+                                            SupportedCategories.Style,
                                             DiagnosticSeverity.Error,
                                             isEnabledByDefault:=True,
                                             Description,

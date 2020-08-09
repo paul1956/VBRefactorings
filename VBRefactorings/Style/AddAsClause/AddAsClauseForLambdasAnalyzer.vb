@@ -14,16 +14,14 @@ Namespace Style
     Public Class AddAsClauseForLambdasAnalyzer
         Inherits DiagnosticAnalyzer
 
-        Private Const Category As String = SupportedCategories.Style
         Private Const Description As String = "Option Strict On requires all Lambda declarations to have an 'As' clause."
-        Private Const MessageFormat As String = Description
         Private Const Title As String = Description
 
         Private Shared ReadOnly Rule As New DiagnosticDescriptor(
                             AddAsClauseForLambdaDiagnosticId,
                             Title,
-                            MessageFormat,
-                            Category,
+                            Description,
+                            SupportedCategories.Style,
                             DiagnosticSeverity.Warning,
                             isEnabledByDefault:=True,
                             Description,

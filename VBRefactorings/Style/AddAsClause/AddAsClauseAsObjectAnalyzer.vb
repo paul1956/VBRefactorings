@@ -14,7 +14,6 @@ Namespace Style
     Public Class AddAsClauseAsObjectAnalyzer
         Inherits DiagnosticAnalyzer
 
-        Private Const Category As String = SupportedCategories.Style
         Private Const Description As String = "You should replace 'As Object' with more specific type."
         Private Const MessageFormat As String = "As Object should not be used."
         Private Const Title As String = "As Object should not be used when a more specific type is available"
@@ -23,7 +22,7 @@ Namespace Style
                     ChangeAsObjectToMoreSpecificDiagnosticId,
                     Title,
                     MessageFormat,
-                    Category,
+                    SupportedCategories.Style,
                     DiagnosticSeverity.Error,
                     isEnabledByDefault:=True,
                     Description,
