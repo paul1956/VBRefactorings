@@ -9,6 +9,7 @@
     <OptionCompare>Text</OptionCompare>
     <OptionStrict>On</OptionStrict>
     <OptionInfer>Off</OptionInfer>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <NoWarn>42353,42354,42355</NoWarn>

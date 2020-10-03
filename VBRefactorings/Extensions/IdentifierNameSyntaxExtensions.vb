@@ -28,7 +28,7 @@ Public Module IdentifierNameSyntaxExtensions
             End If
         End If
 
-        Dim DeclaredCount As Integer = IdentifierSymbolInfo.Symbol.DeclaringSyntaxReferences.Count
+        Dim DeclaredCount As Integer = IdentifierSymbolInfo.Symbol.DeclaringSyntaxReferences.Length
         For Each DeclaringSyntaxReferences As SyntaxReference In IdentifierSymbolInfo.Symbol.DeclaringSyntaxReferences
             If Identifier.Span.Overlap(DeclaringSyntaxReferences.Span) IsNot Nothing Then
                 DeclaredCount -= 1

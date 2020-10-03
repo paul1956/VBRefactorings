@@ -11,7 +11,7 @@ Public Module CheckSyntax
     Public Function CheckSyntax(source As String) As (Boolean, String)
         Dim tree As CompilationUnitSyntax = SyntaxFactory.ParseCompilationUnit(source)
         Dim strDetail As String = ""
-        If tree.GetDiagnostics().Count = 0 Then
+        If Not tree.GetDiagnostics().Any Then
             strDetail &= "Diagnostic test passed!!!"
             Return (True, strDetail)
         End If

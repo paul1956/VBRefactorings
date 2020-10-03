@@ -153,11 +153,11 @@ Namespace Utilities
         End Function
 
         Private Shared Function IsConstructedFromSelf(symbol As INamedTypeSymbol) As Boolean
-            Return symbol.Equals(symbol.ConstructedFrom)
+            Return symbol.Equals(symbol.ConstructedFrom, SymbolEqualityComparer.Default)
         End Function
 
         Private Shared Function IsConstructedFromSelf(symbol As IMethodSymbol) As Boolean
-            Return symbol.Equals(symbol.ConstructedFrom)
+            Return symbol.Equals(symbol.ConstructedFrom, SymbolEqualityComparer.Default)
         End Function
 
         Private Shared Function IsObjectType(symbol As ISymbol) As Boolean

@@ -47,7 +47,7 @@ Namespace Style
                                         ).NormalizeWhitespace()
             End If
             Dim ForEachExpressionSyntax As ExpressionSyntax = _forEachStatement.Expression
-            Dim ElementTypeInfo As TypeInfo = Model.GetTypeInfo(ForEachExpressionSyntax)
+            Dim ElementTypeInfo As TypeInfo = Model.GetTypeInfo(ForEachExpressionSyntax, CancelToken)
 
             If ElementTypeInfo.Type IsNot Nothing AndAlso ElementTypeInfo.Type.IsArrayType Then
                 Dim ExpressionArrayTypeSymbol As IArrayTypeSymbol = TryCast(ElementTypeInfo.Type, IArrayTypeSymbol)
@@ -59,7 +59,7 @@ Namespace Style
                                     FixExpressionType(ExpressionArrayTypeSymbol.ElementType).
                                     WithAdditionalAnnotations(Simplifier.Annotation)
                                     ).NormalizeWhitespace()
-                Select Case ElementTypeInfo.Type.GetTypeArguments.Count
+                Select Case ElementTypeInfo.Type.GetTypeArguments.Length
                     Case 0
                     Case 1
                         ElementITypeSymbol = ElementTypeInfo.Type.GetTypeArguments(0)
@@ -386,7 +386,7 @@ Namespace Style
                 End If
             Next
             Dim TypeList As New StringBuilder
-            For i = 6 To sometype.ToDisplayParts.Count - 2
+            For i = 6 To sometype.ToDisplayParts.Length - 2
                 TypeList.Append(Parts(i))
             Next
             Dim TypeListString As String = TypeList.ToString.Trim
@@ -418,7 +418,7 @@ Namespace Style
         Private Function GetTypesExtracted(TypeListString As String) As List(Of String)
             Dim TypeListSplit As New List(Of String)
             Dim ModifiedTypeListStringBuilder As New StringBuilder
-            For j As Integer = 0 To TypeListString.Count - 1
+            For j As Integer = 0 To TypeListString.Length - 1
                 Select Case TypeListString.Substring(j, 1)
                     Case ","
                         If ModifiedTypeListStringBuilder.Length > 0 Then
@@ -436,9 +436,9 @@ Namespace Style
                             End If
                         End If
                         j += IndexOfCloseParen
-                        If j < TypeListString.Count - 1 Then
+                        If j < TypeListString.Length - 1 Then
                             If TypeListString.Substring(j, 1) = "." Then
-                                ModifiedTypeListStringBuilder.Append(".")
+                                ModifiedTypeListStringBuilder.Append("."c)
                             Else
                                 TypeListSplit.Add(ModifiedTypeListStringBuilder.ToString)
                                 ModifiedTypeListStringBuilder.Clear()

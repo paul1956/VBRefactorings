@@ -147,7 +147,7 @@ Public Module StatementSyntaxExtensions
                         SyntaxKind.ModuleBlock,
                         SyntaxKind.StructureBlock
                     Dim typeBlock As TypeBlockSyntax = DirectCast(member, TypeBlockSyntax)
-                    Dim newBegin As TypeStatementSyntax = DirectCast(typeBlock.BlockStatement.WithAttributeLists(attributeLists), TypeStatementSyntax)
+                    Dim newBegin As TypeStatementSyntax = typeBlock.BlockStatement.WithAttributeLists(attributeLists)
                     Return typeBlock.WithBlockStatement(newBegin)
                 Case SyntaxKind.EnumBlock
                     Dim enumBlock As EnumBlockSyntax = DirectCast(member, EnumBlockSyntax)
@@ -169,7 +169,7 @@ Public Module StatementSyntaxExtensions
                     Return DirectCast(member, FieldDeclarationSyntax).WithAttributeLists(attributeLists)
                 Case SyntaxKind.EventBlock
                     Dim eventBlock As EventBlockSyntax = DirectCast(member, EventBlockSyntax)
-                    Dim newEventStatement As EventStatementSyntax = DirectCast(eventBlock.EventStatement.WithAttributeLists(attributeLists), EventStatementSyntax)
+                    Dim newEventStatement As EventStatementSyntax = eventBlock.EventStatement.WithAttributeLists(attributeLists)
                     Return eventBlock.WithEventStatement(newEventStatement)
                 Case SyntaxKind.EventStatement
                     Return DirectCast(member, EventStatementSyntax).WithAttributeLists(attributeLists)
